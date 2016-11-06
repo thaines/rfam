@@ -1,0 +1,68 @@
+<div id="current" data-path="%(path)s">
+
+<div id="current_overview">
+
+<a hreF="/asset/%(path)s?home">
+<div id="current_name">
+<b>%(name)s</b>
+</div>
+<div id="path">%(path)s</div>
+</a>
+
+<div id="current_description">
+<textarea>%(description)s</textarea>
+<div class="state_ok"></div>
+</div>
+
+</div>
+
+
+<div id="current_control">
+
+<div id="current_type">
+%(text:asset:type)s
+<b>%(type)s</b>
+</div>
+
+<div id="current_owner">
+%(text:asset:owner)s
+<select>%(owner)s</select>
+<div class="state_ok"></div>
+</div>
+
+<div id="current_state">
+%(text:asset:state)s
+<select>%(state)s</select>
+<div class="state_ok"></div>
+</div>
+
+<div id="current_priority">
+%(text:asset:priority)s
+%(priority)s
+<div class="state_ok"></div>
+</div>
+
+<button id="checkpoint">%(text:asset:checkpoint)s</button>
+<div id="checkpoint_result"></div>
+
+</div>
+
+
+<div id="current_extra">
+
+<!-- <div><i>Who has the file open</i></div> -->
+
+%(render_stats)s
+
+</div>
+
+
+<div id="current_support">
+
+<div>%(text:asset:support)s</div>
+
+%(support)s
+
+</div>
+
+</div>

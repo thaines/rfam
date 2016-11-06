@@ -1,0 +1,19 @@
+{
+ "name" : null,
+ "version" : "R4",
+ 
+ "paths" : "paths",
+ "server" : "http://localhost:8080",
+ 
+ "processes" : [2],
+ "provides" : [],
+ 
+ "blender" : "~/blender/blender",
+ "nice" : 10,
+ "scripting" : true,
+ 
+ "tick" : 0.2,
+ 
+ "single_use" : false,
+ "jitter" : 10.0
+}

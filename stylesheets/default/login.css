@@ -1,0 +1,122 @@
+#projects
+{
+ text-align: center;
+}
+
+.project
+{
+ width: 128px;
+ height: 192px;
+ padding: 4px;
+ border: 3px solid;
+ border-radius: 5px;
+ box-shadow: 2px 2px 2px #555555;
+ margin: 8px;
+ display: inline-block;
+ background: #eee;
+}
+
+.project:hover
+{
+ box-shadow: 4px 4px 2px #666666;
+}
+
+.project img
+{
+ width: 128px;
+ height: 128px;
+}
+
+.project div
+{
+ text-align: center;
+ vertical-align: middle;
+ font: 18px/64px Georgia;
+}
+
+#selected_project
+{
+ background: #eedddd;
+ border-color: #ee6666;
+}
+
+#divider
+{
+ height: 16px;
+ width: 100%;
+}
+
+#split
+{
+ display: inline-block; 
+}
+
+#users
+{
+ text-align: center;
+}
+
+.user
+{
+ width: 128px;
+ height: 192px;
+ padding: 4px;
+ border: 3px solid;
+ border-radius: 5px;
+ box-shadow: 2px 2px 2px #555555;
+ margin: 8px;
+ display: inline-block;
+ background: #eeeeee;
+ text-align: center;
+ vertical-align: top;
+}
+
+.user:hover
+{
+ box-shadow: 4px 4px 2px #666666; 
+}
+
+.user img
+{
+ width: 128px;
+ height: 128px;
+}
+
+.user div
+{
+ vertical-align: bottom;
+ display: inline;
+ font: 18px/32px Georgia;
+}
+
+#selected_user
+{
+ background: #eedddd;
+ border-color: #ee6666;
+}
+
+#login
+{
+ text-align: center;
+}
+
+#login div
+{
+ width: 128px;
+ height: 32px;
+ padding: 4px;
+ border: 3px solid;
+ border-radius: 5px;
+ box-shadow: 2px 2px 2px #555555;
+ margin: 8px;
+ display: inline-block;
+ background: #eeeeee;
+ text-align: center;
+ vertical-align: middle;
+ font: 18px/32px Georgia;
+}
+
+#login div:hover
+{
+ box-shadow: 4px 4px 2px #666666;
+}

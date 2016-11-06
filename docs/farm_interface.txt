@@ -1,0 +1,46 @@
+The server offers a single url "/farm", that accepts json (post) and returns json.
+Both json objects are lists of dictionaries: from the client to the server you have requests, from the server to the client you have commandments:
+
+
+Requests:
+
+{"id" : "identity", "name" : name, "provides" : [list of features it provides], "version" : Version string.}
+Must always be provided as the first entry - name must be unique and will be shown in the web interface. version is technically optional - is shown in the interface so the user can tell which node version is running on each node. Good for keeping track of upgrades etc.
+
+{"id" : "info"}
+Asks the server to provide an info commandment, giving the client all of the centrally stored configuration information.
+
+{"id" : "task", "paths" : list of paths that it has access to, "provides" : list of features it provides, "count" : How many tasks to obtain.}
+Asks the server to provide the given number of tasks within the given requirements; server can and will ignore the request if this node is paused or it simply has no work that matches the requirements. Partial fulfilment can of course occur if count is more than one.
+
+{"id" : "report", "uuid" : Job identifier, "frame" : Frame its rendering, or a range [min, max] if its a video render, "done" : Number of parts done, "total" : Total number of parts available for doing}
+Used to heatbeat that it is working on a task. done and total are usually 0 and 1 respectively, due to only having a single frame to render, but for video renders they should measure frames done. For single frames if its doing tiles it can report tiles done, though server will ignore that for now.
+
+{"id" : "done", "uuid" : Job identifier, "frame" : Frame its rendering, or a range [min, max] if its a video render, "time" : How many seconds it took to do the task.}
+Allows a node to report that it has completed a task.
+
+
+Commandments:
+
+{"id" : "info", "heartbeat" : time in seconds, float, "arrhythmia" : extra time, also in seconds, "error_scale" : float scaler of heartbeat for each time an error occurs, "hibernation" : Maximum heartbeat time allowed, "memory" : Time, seconds - how long these parameters are valid for.}
+Configuration information provided by the server - basically how often it should talk to the server and information about adapting it as the situation changes.
+
+{"id" : "task", "uuid" : Job identifier, "file" : "The file to render, starting with a share name.", "frame" : Frame to render or the list [min, max] if its a video render, "requires" : List of strings, each being a feature it requires for rendering.}
+A task for the server to do - self explanatory really.
+
+{"id" : "kill", "uuid" : Job identifier, "frame" : Frame to render or the list [min, max] if its a video render.}
+Tells it to kill a task - only ever done in response to a report. Means the task has been cancelled, so rendering can stop.
+
+
+
+Clusters:
+
+For cluster support there is a second URL, specifically "/potential". You post a single name (as json), identifying the cluster, and it returns a list of all jobs that have not previously been reported to that name. The list is of dictionaries, one per job, and contains the following keys:
+ uuid - identifier of job.
+ name - Job name.
+ created - time it was created, seconds since unix epoch.
+ file - Path of file.
+ priority - Blah.
+ video - True if its a vidoe rendering request, False for normal frames request.
+ requires - tags of what it requires from its nodes.
+ frames - total number of frames in the job.

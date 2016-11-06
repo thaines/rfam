@@ -1,0 +1,179 @@
+Server:
+-------
+config.json in root of server.
+
+paths : Path to a directory that contains a .json file for each shared folder, into which projects are stored.
+projects: Path to a directory of .json files specifying projects.
+users: Path to a directory of .json files specifying users.
+
+log: Path and filename, with substitution, for a log file.
+single_proc: If true it does not bother with lock files etc. which saves time. Unsafe if multiple copies of bam are running as could result in corruption of .json files.
+ 
+languages: Path to a directory containing all of the language .json files.
+language: Default language, which is used for the login screen before a users preference takes over - take this key, add .json and you get the file it will use in the languages directory.
+ 
+templates: Directory that contains all the .html templates that drive the system.
+stylesheets: Directory that contains all the stylesheets.
+javascript: Directory that contains all the javascript files.
+logo: Path to the logo to show in the interface - png or jpg.
+ 
+port: Port to run the server on.
+cache: How long some of the configuration caches last, in seconds. Note that not all configuration data can be changed whilst the server is running, and this primarily applies to the paths, projects and users.
+ 
+jobs: Directory to store .json files for the jobs that are in the system.
+nodes: Directory to store the .json files for the render nodes it knows about.
+bin_search_order: If False it renders files in frame order, if True it reorders them to maximise the chance of seeing a glitch early.
+require_half_life: Used to calculate the statistics of node capabilities, so it knows how much to up-weight picky jobs.
+retry: If true it retries errored jobs, otherwise a human has to manually create a new render job after a frame has errored.
+show_overdue: If true the render interface will show overdue render nodes for a while, if not they are hidden the moment they have taken too long.
+
+heartbeat: How often, in seconds, to tell nodes to heartbeat the server.
+arrhythmia: A quantity of random time to add to the heartbeat, to prevent node heartbeats getting synchronised by error conditions and DOS-ing the server.
+error_scale: Each time a client fails to connect to the server it should multiply its wait time by this.
+hibernation: Maximum time, in seconds, between heartbeats - usually reached by error conditions.
+
+timeout_scale: Multiplier of the heartbeat time at which it considers a node dead and reassigns its tasks.
+timeout_node: How long since a node has been seen to stop showing it in the interface.
+memory: After this amount of time the client should re-request the timing information - matters for rate control so the node actually does the adaptation.
+rate_control: Maximum number of heartbeats the server wants per second - used to adjust the heartbeat number given to nodes - i.e. if the server is getting more requests than this per second it will increase the heartbeat time so nodes ping it less often.
+
+min_render_time: Minimum render time when assigning jobs - avoids a divide by zero, and also penalises sending jobs that are faster than this to the farm.
+unknown_render_time: How long to predict a job is going to take per-frame whilst the first frame is running. Typically set high to avoid lots of nodes piling onto a new node until its first frame has rendered (Note that first frames are heavily prioritised, for verification and to inform future decision.).
+
+
+
+Node:
+-----
+One per node (though shared configuration via a shared file system is common), in config.json in root of node.
+
+name: The name to report to the server; should be unique. Set to null and it will use a random uuid.
+version: Optional, but version to report to the server; can be whatever you want. Typically its the version of the render node software, for if you want to upgrade a running system, but it can also make sense to add the version of Blender installed, for the same reason. This information is provided in the node list of the rendering web interface to help manage upgrades.
+
+paths: Directory containing the paths of the shares it can access.
+server: Where to find the server, can include a port.
+
+processes: A list of integers - each entry corresponds to a Blender process to be run on the node, with the integer the number of threads the process should use. Typically the sum of the integers in the list will be a bit higher than the number of cores on the node (a bit higher to ensure it remains maxed out when nodes are loading data etc.).
+provides: What it reports the node has, as a list of strings. For fussy renders; arbitrary.
+
+blender: path to the copy of blender to use.
+nice: Nice parameter to use when running Blender.
+scripting: true to allow python scripts to run, false to prevent. If not provided it will default to true. Should almost certainly be set to true.
+
+tick: How often to check if the processes have finished their current task, independent of the heartbeat. Python does not seem to do waiting for multiple processes, hence the need for this hack.
+
+single_use: If true it will start running, do a single work request (could be multiple jobs if process list has multiple entries), finish all jobs and then exits. Typically used on clusters, where the cluster queuing system is incompatible with never ending processes.
+jitter: When the node is first run it will delay connecting (sleep) for a random number of seconds, between 0 and this number. Useful with clusters when operating in single use mode, to soften the sudden burst in connections when a job is unleashed.
+
+
+
+Paths:
+------
+The system uses the idea of 'named paths' - all of the paths are of the form '<name>::path-within-directory'. Nodes and the server then have path files that tell it which directory on the local machine to find a given named path in - all it does is convert the name into its local path and append the path-within-directory. This means that the server and nodes can mount shared storage in different locations without issue, as long as the shared space is given the same name so paths make sense. Note that the server will not send render jobs to nodes that can't access the required storage - this can be used to force a node to only work on a given project for instance. There is one path configuration per named shared directory, and they exist in the paths directory of both servers and nodes.
+
+ident: Identifier used when giving this path.
+path: Local path to the share, point being this can be different between the server/nodes. Must be the same data if its got the same identifier though.
+
+
+
+Users:
+------
+One per user, in the users directory on the server. These can be edited while the server is running - useful as you typically have no mug shots on the first day of an event, until you have gone around and taken photos, and don't want to have to restart the server.
+
+ident: Unique string identifying the user to the system - user name like.
+name: Name that is presented throughout the system, including for credit generation.
+image: Image to use to represent the user, typically a mug shot. Named path.
+projects: List of project ident's that the user can access.
+language: The language to present the interface in for the user.
+
+
+
+Projects:
+---------
+One per project, in the projects directory on the server. At 3Dami we typically have a project for each team to make their film in plus another tutorial project used for the linking tutorial on the second day, again one per term. Then we have a project containing all the staff members, in which the première opening video is created.
+
+ident: Unique string identifying the user to the system.
+name: Name that is presented through the system, noting that this is more code name than final presentation name (e.g. Green Team).
+image: Image to use to represent the project, a group photo of the team is typical. Named path.
+directory: The directory that contains all of the projects files. Named path.
+default: The directory that contains all of the default files for the project, used to populate the interface. Named path.
+render.priority: The priority of rendering the project relative to the other projects in the system. Typically high for the films and low for the tutorials.
+
+
+
+Defaults:
+---------
+This directory contains the defaults for creating assets etc. within a project. This comes with a suitable setup for running 3Dami and should not be edited, though has been tweaked mid-event at a students request in the past! It has a standard structure, given below and in the remaining sections of this file:
+
+priority.json - Configures the priority system.
+states - Directory containing a .json file for each state an asset can be in.
+asset-types - Directory containing a .json file for each asset type. Also contains .blend files that are copied when creating the assets.
+
+
+
+Defaults -> Priority:
+---------------------
+
+visible: If true priorities are visible in the interface, if false they are hidden and the users cannot change them from their defaults.
+low: Integer that is the lowest priority; should not be negative.
+high: Integer that is the highest priority.
+names: If omitted / null then the user gets to type in integers for priority, otherwise the list of strings given are provided as a drop down list, equally space over the priority range.
+boosting: If false then priorities are fixed, but if true then, when an asset is in a boostable state, if can have its priority raised by assets that are dependent on it.
+boost: How much to further raise a priority when boosting, to make sure the dependent asset appears higher up the to do list.
+
+
+
+Defaults -> States:
+-------------------
+
+ident: Identifier for state, as a short string.
+name: Name presented to the user.
+render: If true then an asset can be automatically rendered when in this state.
+render.priority: Priority multiplier for when an asset is in the given state, for automatic rendering only.
+boost: If true the asset can have its priority boosted when in this state.
+time: Not used.
+squeeze: Not used.
+
+
+
+Defaults -> Asset Types:
+------------------------
+
+ident: Identifier for asset type, as a short string.
+name: Name presented to the user.
+directory: Default directory within the project to put this asset type into.
+priority: Default priority, as integer.
+state: Default starting state identifier.
+states: List of states offered for this asset type, as a list of identifier strings. They are offered in the given order, which is therefore the expected state transition order.
+time_budget: Dictionary going from state to time, in minutes, of default time taken to transition from previous state to given state for planning.
+file: The filename of the .blend file to copy to create this asset type. Can be omitted, in which case no file is created, just the meta data.
+render: Default state of renderable flag.
+final: Default state of render as video flag.
+output: Format to change output to in the file on creation, where %(name)s is the name of the asset.
+sort: Integer to control the sorting order of the asset types when presented to the user.
+
+
+
+Performance:
+------------
+
+The performance profiling system has a simple configuration file, target.json. It contains:
+
+url : The base url of the server to analyse.
+project : The identifier of the project to use for tests.
+
+
+
+Prenode:
+--------
+
+Uses a simple configuration, in config.json, with the following keys:
+
+name : Name of the cluster - for any given job you only get each it once for each name.
+server : Server to query.
+
+retry_time : How long to sleep if there is a connection error before retrying.
+check_time : How long to sleep after each request.
+
+provides : List of tags - will only accept a job if any tags it has are in this list.
+cmd : The command to issue whenever there are jobs, with %i replaced with the job count.
+

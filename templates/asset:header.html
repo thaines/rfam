@@ -1,0 +1,135 @@
+<div id="page_tab" data-tab="#goto_assets" data-path="%(path)s" style="display:none"></div>
+
+
+
+<div class="box">
+
+<div id="name">
+<div>%(text:asset:name)s</div>
+<input type="text" value="%(name)s">
+<div class="state_ok"></div>
+</div>
+<div id="path">%(path)s</div>
+<div id="path_extra">%(path_extra)s</div>
+
+<div id="description">
+<div>%(text:asset:description)s</div>
+<textarea>%(description)s</textarea>
+<div class="state_ok"></div>
+</div>
+
+</div>
+
+
+<div class="box_right">
+
+<div id="type">
+%(text:asset:type)s
+<select>%(type)s</select>
+<div class="state_ok"></div>
+</div>
+
+<div id="state">
+%(text:asset:state)s
+<select>%(state)s</select>
+<div class="state_ok"></div>
+</div>
+
+<div id="priority">
+%(text:asset:priority)s
+%(priority)s
+<div class="state_ok"></div>
+</div>
+
+<div id="render">
+%(text:asset:render)s
+<div class="checkbox_container">
+<input id="checkbox_render" type="checkbox" %(render)s>
+<label for="checkbox_render"></label>
+</div>
+<div class="state_ok"></div>
+</div>
+
+<div id="final">
+%(text:asset:final)s
+<div class="checkbox_container">
+<input id="checkbox_final" type="checkbox" %(final)s>
+<label for="checkbox_final"></label>
+</div>
+<div class="state_ok"></div>
+</div>
+
+</div>
+
+
+<div class="clear"></div>
+
+
+<div class="box">
+
+<div id="owner">
+%(text:asset:owner)s
+<select>%(owner)s</select>
+<div class="state_ok"></div>
+</div>
+
+<div>
+%(text:asset:support)s
+</div>
+
+%(support)s
+<!--
+<div>
+<i>Who has the file open</i>
+</div>
+-->
+<div id="render_stats">
+%(render_stats)s
+</div>
+
+<button id="reset_stats">%(text:asset:reset_stats)s</button>
+
+</div>
+
+
+<div class="box_right">
+
+<button id="checkpoint">%(text:asset:checkpoint)s</button>
+<div id="checkpoint_result"></div>
+
+<button id="delete">%(text:asset:delete)s</button>
+
+<div>
+<i>Clone</i>
+</div>
+<!--
+<div>
+<i>Download file and dependencies</i>
+</div>
+-->
+<div>
+%(text:asset:modified)s <b>%(modified)s</b>
+</div>
+
+<div>
+%(text:asset:size)s <b>%(size)s</b>
+</div>
+
+<div>
+%(text:asset:creator)s <b>%(creator)s</b>
+</div>
+
+</div>
+
+
+<div class="clear"></div>
+
+<!--
+<div class="box_wide">
+
+<i>Dependencies</i>
+
+</div>
+-->
+
+<div class="clear"></div>

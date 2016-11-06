@@ -1,0 +1,29 @@
+<div id="header">
+<span id="header_left">
+<div id="header_title">%(text:name)s<br/><img src="/logo"/></div>
+<div id="header_project">%(session:project_name)s<br/><img src="/heads/%(session:project)s"/></div>
+<div id="header_user">%(session:user_name)s<br/><img src="/head/%(session:user)s"/></div>
+
+<a href="/home"><div class="header_tab"><div id="goto_home">%(text:home)s</div></div></a>
+<a href="/assets"><div class="header_tab"><div id="goto_assets">%(text:assets)s</div></div></a>
+<a href="/team"><div class="header_tab"><div id="goto_team">%(text:team)s</div></div></a>
+<a href="/project"><div class="header_tab"><div id="goto_project">%(text:project)s</div></div></a>
+
+<div class="header_divide"></div>
+
+<a href="/rendering"><div class="header_tab"><div id="goto_rendering"> %(text:rendering)s</div></div></a>
+<!-- <a href="/issues"><div class="header_tab"><div id="goto_issues">%(text:issues)s</div></div></a> -->
+
+</span>
+<span id="header_right">
+
+<div class="right_head_button" id="logout">%(text:logout)s</div>
+
+<div id="right_extra">
+%(header_extra)s
+</div>
+
+</span>
+</div>
+
+%(inner)s

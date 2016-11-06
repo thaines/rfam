@@ -1,0 +1,437 @@
+body
+{
+ background: #aaa; 
+}
+
+a
+{
+ text-decoration: none; 
+}
+
+#copyright
+{
+ font: 12px/14px Georgia;
+ text-align: right;
+}
+
+#header
+{
+ background: #ffab00;
+ text-align: center;
+ font: 18px/32px Georgia;
+ border: 2px solid;
+ border-color: #cccccc;
+ margin: 0px 0px 16px 0px;
+ border-radius: 0px 0px 16px 16px;
+}
+
+#header img
+{
+ width: 128px;
+ height: 128px;
+}
+
+#header_left
+{
+ width: calc(100% - 100px);
+ display: inline-block;
+ text-align: left;
+ vertical-align: top;
+}
+
+#header_right
+{
+ width: 90px;
+ height: 174px;
+ display: inline-block;
+ text-align: center;
+ position: relative;
+}
+
+#header_title
+{
+ display: inline-block;
+ border: 2px solid;
+ border-color: #7f5500;
+ margin: 2px;
+ padding: 2px 8px 2px 8px;
+ border-radius: 4px;
+ background: #eeeeee;
+ text-align: center;
+}
+
+#header_project
+{
+ display: inline-block;
+ border: 2px solid;
+ border-color: #7f5500;
+ margin: 2px;
+ padding: 2px 8px 2px 8px;
+ border-radius: 4px;
+ background: #eeeeee;
+ text-align: center;
+}
+
+#header_user
+{
+ display: inline-block;
+ border: 2px solid;
+ border-color: #7f5500;
+ margin: 2px 24px 2px 2px;
+ padding: 2px 8px 2px 8px;
+ border-radius: 4px;
+ background: #eee;
+ text-align: center;
+}
+
+.header_divide
+{
+ display: inline-block;
+ width: 16px;
+}
+
+.header_tab
+{
+ display: inline-block;
+ width: 32px;
+ height: 96px;
+ border-left: 2px solid;
+ border-top: 2px solid;
+ border-right: 2px solid;
+ border-radius: 16px 16px 0px 0px;
+ border-color: #ccc;
+ padding: 8px 0px 8px 0px;
+ margin: 0px 0px -2px 0px;
+ background: #888;
+ font: 16px/32px Georgia;
+}
+
+.header_tab:hover
+{
+ background: #999;
+}
+
+.header_tab div
+{
+ display: block;
+ transform: rotate(90deg);
+ transform-origin: 48px -16px;
+ -webkit-transform: rotate(90deg);
+ -webkit-transform-origin: 48px -16px;
+ margin: 70px 0px 0px 0px;
+ color: #000;
+}
+
+#selected_tab
+{
+ background: #aaa;
+ font-weight: bold;
+}
+
+
+.right_head_button
+{
+ display: block;
+ border: 2px solid;
+ border-color: #7f5500;
+ margin: 2px 2px 2px 2px;
+ padding: 2px 8px 2px 8px;
+ border-radius: 4px;
+ background: #eeeeee;
+ cursor: pointer;
+ color: #000;
+}
+
+.right_head_button:hover
+{
+ background: #cccccc;
+}
+
+#right_extra
+{
+ display: block;
+ position: absolute;
+ bottom: 0;
+ right: 0;
+}
+
+
+.state_ok
+{
+ display: inline-block;
+ width: 16px;
+ height: 16px;
+ background-image: url('/images/ok.png');
+ background-size: 16px 16px;
+}
+
+.state_sync
+{
+ display: inline-block;
+ width: 16px;
+ height: 16px; 
+ background-image: url('/images/sync.png');
+ background-size: 16px 16px;
+}
+
+.state_error
+{
+ display: inline-block;
+ width: 16px;
+ height: 16px; 
+ background-image: url('/images/error.png');
+ background-size: 16px 16px;
+}
+
+.state_none
+{
+ display: inline-block;
+ width: 16px;
+ height: 16px;
+}
+
+.clear
+{
+ clear: both;
+}
+
+
+input
+{
+ font: 14px Georgia;
+ border: solid 2px #ccc;
+ border-radius: 4px;
+ padding: 4px;
+ color: #422;
+ box-shadow: 1px 1px 4px #cf7b00;
+}
+
+
+.checkbox_container
+{
+ display: inline-block;
+ width: 26px;
+ height: 26px;
+ padding: 0px;
+ margin: 0px 4px 0px 4px;
+}
+
+.checkbox_container input
+{
+ position: absolute;
+ visibility: hidden;
+ width: 0px;
+ height: 0px;
+}
+
+.checkbox_container label
+{
+ display: inline-block;
+ width: 22px;
+ height: 22px;
+ border-radius: 100%;
+ box-shadow: 1px 1px 4px #cf7b00;
+ border: solid 2px #aaa;
+ background: #fff;
+ cursor: pointer;
+ z-index: 1;
+}
+
+.checkbox_container label:hover
+{
+ border-color: #999; 
+}
+
+
+.checkbox_container input[type=checkbox]:checked + label
+{
+ background: #abff00;
+}
+
+
+.small_checkbox_container
+{
+ display: inline-block;
+ width: 13px;
+ height: 13px;
+ padding: 0px;
+ margin: 0px 2px 0px 2px;
+}
+
+.small_checkbox_container input
+{
+ position: absolute;
+ visibility: hidden;
+ width: 0px;
+ height: 0px;
+}
+
+.small_checkbox_container label
+{
+ display: inline-block;
+ width: 11px;
+ height: 11px;
+ border-radius: 100%;
+ box-shadow: 1px 1px 2px #cf7b00;
+ border: solid 1px #aaa;
+ background: #fff;
+ cursor: pointer;
+ z-index: 1;
+}
+
+.small_checkbox_container label:hover
+{
+ border-color: #999; 
+}
+
+.small_checkbox_container input[type=checkbox]:checked + label
+{
+ background: #abff00;
+}
+
+
+textarea
+{
+ font: 14px Georgia;
+ border: solid 2px #ccc;
+ border-radius: 4px;
+ padding: 4px;
+ color: #422;
+ box-shadow: 1px 1px 4px #cf7b00;
+}
+
+select
+{
+ font: 14px Georgia;
+ border: solid 2px #ccc;
+ border-radius: 4px;
+ padding: 4px;
+ color: #422;
+ background-color: #fff;
+ box-shadow: 1px 1px 4px #cf7b00;
+}
+
+button
+{
+ font: 14px Georgia;
+ border: solid 2px #ccc;
+ border-radius: 4px;
+ padding: 4px;
+ color: #000;
+ background-color: #888;
+ cursor: pointer;
+ box-shadow: 1px 1px 4px #cf7b00;
+}
+
+button:hover
+{
+ background-color: #999;
+}
+
+
+.box
+{
+ background: #ffab00;
+ font: 18px/32px Georgia;
+ border: 2px solid;
+ border-color: #cccccc;
+ margin: 8px 12px 8px 12px;
+ border-radius: 12px;
+ padding: 8px;
+ float: left;
+ width: calc(50% - 48px);
+}
+
+.box_right
+{
+ background: #ffab00;
+ font: 18px/32px Georgia;
+ border: 2px solid;
+ border-color: #cccccc;
+ margin: 8px 12px 8px 12px;
+ border-radius: 12px;
+ padding: 8px;
+ float: right;
+ width: calc(50% - 48px);
+}
+
+.box_wide
+{
+ background: #ffab00;
+ font: 18px/32px Georgia;
+ border: 2px solid;
+ border-color: #cccccc;
+ margin: 8px auto 8px auto;
+ border-radius: 12px;
+ padding: 8px;
+ width: calc(100% - 48px);
+}
+
+
+
+#selector
+{
+ background-color: #ff7900;
+ border-radius: 6px;
+ border: solid 2px #333;
+}
+
+#selector_head
+{
+ border-bottom: solid 2px #000;
+}
+
+.selector_part
+{
+ display: inline-block;
+ padding: 2px 4px 2px 4px;
+ font: 20px/20px Georgia;
+}
+
+.selector_part:hover
+{
+ background-color: #ffcd22; 
+}
+
+.selector_current
+{
+ display: inline-block;
+ padding: 2px 4px 2px 4px;
+ font: bold 20px/20px Georgia;
+}
+
+.selector_directory
+{
+ border-bottom: solid 3px #ffab00;
+ padding: 2px;
+ font: bold 16px/16px Georgia;
+ cursor: pointer;
+}
+
+.selector_directory:hover
+{
+ background-color: #ffcd22; 
+}
+
+.selector_file
+{
+ border-top: solid 3px #ffab00;
+ padding: 2px;
+ font: 16px/16px Georgia;
+ cursor: pointer;
+}
+
+.selector_file:hover
+{
+ background-color: #ffcd22; 
+}
+
+#selector_tail
+{
+ border-top: solid 2px #000; 
+ padding: 2px;
+ font: 14px/14px Georgia;
+ color: #555;
+ text-align: right;
+ height: 14px;
+}

@@ -1,0 +1,42 @@
+<div id="page_tab" data-tab="#goto_assets" style="display:none"></div>
+
+<div id="type_box">
+%(types)s
+</div>
+
+
+<div class="box_wide">
+<table id="assets">
+
+%(assets_head)s
+
+%(assets)s
+
+</table>
+</div>
+
+
+<div id="tail" class="box_wide">
+
+%(text:sort:select)s
+
+<select>
+<option value="name_asc">%(text:sort:name:asc)s</option>
+<option value="name_dec">%(text:sort:name:dec)s</option>
+<option value="type_asc">%(text:sort:type:asc)s</option>
+<option value="type_dec">%(text:sort:type:dec)s</option>
+<option value="owner_asc">%(text:sort:owner:asc)s</option>
+<option value="owner_dec">%(text:sort:owner:dec)s</option>
+<option value="state_asc">%(text:sort:state:asc)s</option>
+<option value="state_dec">%(text:sort:state:dec)s</option>
+<option value="priority_asc">%(text:sort:priority:asc)s</option>
+<option selected value="priority_dec">%(text:sort:priority:dec)s</option>
+</select>
+
+%(text:filter)s
+
+<input type="text" value="">
+
+<div>%(text:asset_count)s <b>%(count)s</b></div>
+
+</div>

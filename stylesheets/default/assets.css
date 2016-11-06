@@ -1,0 +1,116 @@
+#assets
+{
+ border-collapse: collapse; 
+ width: 100%;
+}
+
+#assets tr:nth-child(2n+4)
+{
+ background-color: #ff7900;
+}
+
+#assets tr:nth-child(n+3):hover
+{
+ background-color: #ffcd22;
+}
+
+#assets .name
+{
+ cursor: pointer; 
+}
+
+#assets .type
+{
+ cursor: pointer; 
+}
+
+#asset_head
+{
+ font: 14px/18px Georgia; 
+}
+
+#assets hr
+{
+ border: 0px;
+ padding: 0px;
+ margin: 0px;
+ background: #000;
+ height: 2px;
+}
+
+.asset
+{
+ font: 16px/18px Georgia;
+}
+
+.name a
+{
+ font: 18px Georgia;
+ font-weight: bold;
+ color: #000; 
+}
+
+.name a:hover
+{
+ color: #420;
+}
+
+.owner
+{
+ text-align: center;  
+}
+
+.state
+{
+ text-align: center;  
+}
+
+.priority
+{
+ text-align: center;  
+}
+
+
+#tail div
+{
+ float: right;  
+}
+
+
+#type_box
+{
+ text-align: center;
+ background: #ffab00;
+ border: 1px solid;
+ border-color: #cccccc;
+ margin: -12px auto 2px auto;
+ border-radius: 8px;
+ padding: 4px;
+ width: calc(100% - 64px);
+}
+
+#type_box div
+{
+ display: inline-block;
+ cursor: pointer;
+ font: 12px Georgia;
+ margin: 0px 2px 0px 2px;
+ padding: 0px 6px 0px 6px;
+ border: solid 1px #000;
+ border-radius: 6px;
+}
+
+#type_box div:hover
+{
+ background-color: #ffcd22;
+}
+
+.type_on
+{
+ background-color: #ff7900;
+}
+
+.type_off
+{
+ background-color: #ffab00;
+}

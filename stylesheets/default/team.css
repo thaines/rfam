@@ -1,0 +1,52 @@
+.user
+{
+ width: 128px;
+ height: 192px;
+ padding: 4px;
+ border: 3px solid;
+ border-radius: 5px;
+ margin: 8px;
+ display: inline-block;
+ background: #eeeeee;
+ text-align: center;
+}
+
+.user img
+{
+ width: 128px;
+ height: 128px;
+}
+
+.user div
+{
+ vertical-align: bottom;
+ display: inline;
+ font: 18px/32px Georgia;
+}
+
+.task
+{
+ width: calc(100% - 192px);
+ padding: 4px;
+ margin: 8px;
+ display: inline-block;
+ vertical-align: top;
+ font: 18px/24px Georgia;
+}
+
+.task a
+{
+ color: #000; 
+}
+
+.task :hover
+{
+ color: #333; 
+}
+
+.task hr
+{
+ border: 0px;
+ height: 2px;
+ background: #000;
+}

@@ -1,0 +1,154 @@
+.file_select
+{
+ width: calc(60% - 16px);
+ display: inline-block;
+ vertical-align: top;
+ margin: 0px 8px 0px 0px;
+}
+
+.file_confirm
+{
+ width: calc(40% - 16px);
+ display: inline-block;
+ vertical-align: top;
+}
+
+
+#name input
+{
+ width: 100%;
+}
+
+#start
+{
+ float: left;
+ margin: 4px 8px 4px 0px;
+}
+
+#start input
+{
+ width: 6em;
+}
+
+#end
+{
+ float: left;
+ margin: 4px 0px 4px 8px;
+}
+
+#end input
+{
+ width: 6em;
+}
+
+.file_confirm button
+{
+ float : right; 
+}
+
+
+#jobs
+{
+ border-collapse: collapse; 
+ width: 100%;
+}
+
+#jobs tr:nth-child(2n+4)
+{
+ background-color: #ff7900;
+}
+
+#jobs tr:nth-child(n+3):hover
+{
+ background-color: #ffcd22;
+}
+
+#jobs_head
+{
+ font: 14px/18px Georgia; 
+}
+
+#jobs hr
+{
+ border: 0px;
+ padding: 0px;
+ margin: 0px;
+ background: #000;
+ height: 2px;
+}
+
+
+.job
+{
+ font: 16px/18px Georgia;
+ text-align: center;
+}
+
+.job .project
+{
+ font: 14px Georgia;
+}
+
+.job .name
+{
+ font-weight: bold;
+}
+
+.job .progress
+{
+ font: 14px Georgia; 
+}
+
+
+#nodes
+{
+ border-collapse: collapse; 
+ width: 100%;
+}
+
+#nodes tr:nth-child(2n+4)
+{
+ background-color: #ff7900;
+}
+
+#nodes tr:nth-child(n+3):hover
+{
+ background-color: #ffcd22;
+}
+
+#nodes_head
+{
+ font: 14px/18px Georgia; 
+}
+
+#nodes hr
+{
+ border: 0px;
+ padding: 0px;
+ margin: 0px;
+ background: #000;
+ height: 2px;
+}
+
+.node
+{
+ font: 16px/18px Georgia;
+ text-align: center;
+}
+
+.node .ident
+{
+ font-weight: bold;
+ text-align: left;
+}
+
+.node .tasks
+{
+ font: 12px Georgia; 
+}
+
+.count
+{
+ margin: 4px;
+ float: right;
+}

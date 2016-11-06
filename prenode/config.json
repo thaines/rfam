@@ -1,0 +1,10 @@
+{
+ "name" : "cluster",
+ "server" : "http://localhost:8080",
+
+ "retry_time" : 30.0,
+ "check_time" : 30.0,
+ 
+ "provides" : [],
+ "cmd" : "echo \"Request for %i jobs\""
+}

@@ -1,0 +1,160 @@
+#title input
+{
+ width: calc(100% - 24px);
+}
+
+#description
+{
+ margin: 0px 0px -12px 0px;
+}
+
+#description textarea
+{
+ width: calc(100% - 24px);
+ height: 10em;
+}
+
+#width
+{
+ float: left;
+}
+
+#width input
+{
+ width: 100px;
+}
+
+#height
+{
+ float: left;
+ margin: 0px 0px 0px 16px;
+}
+
+#height input
+{
+ width: 100px;
+}
+
+#fps
+{
+ float: left;
+ margin: 0px 0px 0px 16px;
+}
+
+#fps input
+{
+ width: 70px; 
+}
+
+#license
+{
+ margin: -12px 0px -12px 0px;
+}
+
+#license textarea
+{
+ width: calc(100% - 24px);
+ height: 10em;
+}
+
+#roles
+{
+ width: 100%;
+ background-color: #ff7900;
+ border-radius: 8px;
+ border-collapse: collapse;
+}
+
+#roles td
+{
+ text-align:center;
+ border-right: solid 2px #ffab00;
+ border-left: solid 2px #ffab00;
+}
+
+#roles hr
+{
+ border: 0px;
+ padding: 0px;
+ margin: 0px;
+ background: #ffab00;
+ height: 3px;
+}
+
+#roles input
+{
+ width: calc(100% - 24px);
+ margin: 0px 3px 0px 0px;
+}
+
+#roles select
+{
+ width: calc(100% - 24px); 
+ margin: 0px 3px 0px 0px;
+}
+
+#roles button
+{
+ width: calc(100% - 6px); 
+}
+
+.up
+{
+ width: 10px;
+ height: 10px;
+ margin: 0px 0px 2px 0px;
+ background-color: #888;
+ border-radius: 9px 9px 0px 0px;
+ cursor: pointer;
+}
+
+.down
+{
+ width: 10px;
+ height: 10px;
+ margin: 2px 0px 0px 0px;
+ background-color: #888;
+ border-radius: 0px 0px 9px 9px;
+ cursor: pointer;
+}
+
+
+.ext_asset
+{
+ width: 98%;
+ background-color: #ff7900;
+ border-radius: 8px;
+ padding: 4px;
+ margin: 0px 0px 4px 0px;
+}
+
+.ext_asset div
+{
+ text-align: right;
+}
+
+.ext_asset input
+{
+ width: calc(100% - 10em);
+ margin: 0px 3px 0px 6px;
+}
+
+#add_ext_asset
+{
+ width: 98%;
+ background-color: #ff7900;
+ border-radius: 8px;
+ padding: 4px;
+ margin: 6px 0px 0px 0px;
+}
+
+#add_ext_asset div
+{
+ text-align: right;
+}
+
+#add_ext_asset input
+{
+ width: calc(100% - 10em);
+ margin: 0px 3px 0px 6px;
+}

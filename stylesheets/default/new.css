@@ -1,0 +1,30 @@
+#name input
+{
+ width: 100%;
+}
+
+#type select
+{
+ width: 100%;
+}
+
+#filename input
+{
+ width: 100%;
+}
+
+#description textarea
+{
+ width: 100%;
+ height: 16em;
+}
+
+#create
+{
+ width: calc(80% - 5px);
+}
+
+#cancel
+{
+ width: 20%;
+}

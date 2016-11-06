@@ -1,0 +1,62 @@
+<div id="page_tab" data-tab="#goto_rendering" style="display:none"></div>
+
+<div class="box_wide">
+
+<div class="file_select" id="selector"></div>
+
+<div class="file_confirm">
+
+<div id="name" data-path="">
+<div>%(text:rendering:name)s</div>
+<input type="text" value="">
+</div>
+
+<div id="start">
+<div>%(text:rendering:start)s</div>
+<input type="number" value="1">
+</div>
+
+<div id="end">
+<div>%(text:rendering:end)s</div>
+<input type="number" value="250">
+</div>
+
+<div class="clear" id="final">
+%(text:rendering:final)s
+<div class="checkbox_container">
+<input id="checkbox_final" type="checkbox">
+<label for="checkbox_final"></label>
+</div>
+</div>
+
+<button id="render">%(text:rendering:create)s</button>
+
+</div>
+
+</div>
+
+
+<div class="box_wide">
+<table id="jobs">
+<tr id="jobs_head"><th>%(text:jobs:project)s</th><th>%(text:jobs:name)s</th><th>%(text:jobs:errors)s</th><th>%(text:jobs:mean_frame_time)s</th><th>%(text:jobs:progress)s</th><th>%(text:jobs:priority)s</th><th>%(text:jobs:control)s</th></tr>
+<tr><th colspan="7"><hr/></th></tr>
+%(jobs)s
+</table>
+</div>
+
+
+<div class="box_wide">
+<table id="nodes">
+<tr id="nodes_head"><th>%(text:nodes:ident)s</th><th>%(text:nodes:work)s</th><th>%(text:nodes:control)s</th></tr>
+<tr><th colspan="3"><hr/></th></tr>
+%(nodes)s
+</table>
+</div>
+
+
+<div class="box_wide">
+<button id="emergency_stop">%(text:emergency:stop)s</button>
+<button id="emergency_start">%(text:emergency:start)s</button>
+<div class="count">%(text:nodes:count)s%(node_count)s
+%(text:jobs:count)s%(job_count)s</div>
+</div>

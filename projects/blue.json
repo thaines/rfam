@@ -1,0 +1,8 @@
+{
+ "ident" : "blue",
+ "name" : "Blue Team",
+ "image" : "images::anons.jpg",
+ "directory" : "data::blue",
+ "default" : "defaults::3Dami",
+ "render.priority" : 1.0
+}

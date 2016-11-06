@@ -1,0 +1,40 @@
+{
+ "paths" : "paths",
+ "projects" : "projects",
+ "users" : "users",
+ 
+ "log" : "log/log_%(pid)s.log",
+ "single_proc" : true,
+ 
+ "languages" : "languages",
+ "language" : "english",
+ 
+ "templates" : "templates",
+ "stylesheets" : "stylesheets/default",
+ "javascript" : "javascript",
+ "logo" : "images/icon.png",
+ "icon" : "images/icon.png",
+ 
+ "port" : 8080,
+ "cache" : 60,
+ 
+ "jobs" : "farm/jobs",
+ "nodes" : "farm/nodes",
+ "bin_search_order" : true,
+ "require_half_life" : 32,
+ "retry" : false,
+ "show_overdue" : true,
+ 
+ "heartbeat" : 30.0,
+ "arrhythmia" : 1.0,
+ "error_scale" : 1.5,
+ "hibernation" : 600.0,
+ 
+ "timeout_scale" : 3.5,
+ "timeout_node" : 600.0,
+ "memory" : 600.0,
+ "rate_control" : 10.0,
+ 
+ "min_render_time" : 60.0,
+ "unknown_render_time" : 3600.0
+}

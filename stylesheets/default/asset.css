@@ -1,0 +1,50 @@
+#name input
+{
+ width: calc(100% - 24px);
+}
+
+#description
+{
+ margin: 0px 0px -12px 0px;
+}
+
+#description textarea
+{
+ width: calc(100% - 24px);
+ height: 10em;
+}
+
+.supporter
+{
+ display: inline-block;
+ padding: 0px 16px 0px 0px;
+}
+
+#render_stats
+{
+ font: 14px Georgia; 
+}
+
+#reset_stats
+{
+ float : right;
+}
+
+#checkpoint_result
+{
+ font: 12px Georgia;
+}
+
+#path
+{
+ display: inline-block;
+ font: 14px Georgia;
+ padding: 6px 0px 0px 12px;
+}
+
+#path_extra
+{
+ display: inline-block;
+ font: 14px Georgia;
+ padding: 6px 0px 0px 12px;
+}

@@ -1,0 +1,7 @@
+{
+ "ident" : "tom",
+ "name" : "Tom SF Haines",
+ "image" : "images::anon.jpg",
+ "projects" : ["blue", "green", "red"],
+ "language" : "english"
+}
