@@ -56,7 +56,7 @@ for row in csv.reader(open(sys.argv[1], newline='')):
     print('  projects = %s' % str(projects))
     
     f = open(fn, 'w')
-    json.dump({'ident' : username, "name" : name, "image" : "images:%s.jpg"%username, "projects" : projects, "language" : language}, f, indent=1)
+    json.dump({'ident' : username, "name" : name, "image" : "images::%s.jpg"%username, "projects" : projects, "language" : language}, f, indent=1)
     f.close()
   
   else:
