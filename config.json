@@ -2,6 +2,8 @@
  "paths" : "paths",
  "projects" : "projects",
  "users" : "users",
+ "defaults" : "defaults",
+ "default" : "2K Scope Cycles CPU",
  
  "log" : "log/log_%(pid)s.log",
  "single_proc" : true,

@@ -188,20 +188,12 @@ def project(rfam, response):
     p[key] = value
     proj.write(p)
     
-  elif key in ['width', 'height', 'fps']:
-    try:
-      value = int(value)
-      if value<1: raise ValueError
-    except:
-      response.append('false')
-      return
-      
-    p = proj.read()
-    p[key] = value
-    proj.write(p)
+  elif key=='default':
+    rfam.set_proj_defaults(response.project, value)
 
   else:
     response.make418()
+    return
     
   # Report success...
   rfam.log(response, 'store_project(%s,%s)' % (key, str(value)))

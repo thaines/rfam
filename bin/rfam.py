@@ -139,6 +139,11 @@ class RFAM:
       f.close()
       
     return self.languages[language]
+  
+  
+  def getDefault(self):
+    """Returns the defaults system to use by default!"""
+    return self.config['default']
     
   
   def __refresh(self):
@@ -158,10 +163,7 @@ class RFAM:
           if project['ident'] in prev:
             if prev[project['ident']]['directory'] != project['directory']:
               del self.dbs[project['ident']]
-            
-            if prev[project['ident']]['default'] != project['default']:
-              del self.dbs_defaults[project['ident']]
-          
+
             del prev[project['ident']]
       
       for key in prev.keys():
@@ -211,13 +213,31 @@ class RFAM:
     """Given the identifier of a project this returns a FSDB object for its defaults directory - this is the configuration information that gives details like types, states and priorities."""
     self.__refresh()
     if ident not in self.dbs_defaults:
-      p = self.getProject(ident)
-      path = self.real(p['default'])
+      db = self.proj(ident)
+      if 'project.json' in db:
+        default = db['project.json'].read()['default']
+      else:
+        default = self.getDefault()
+      
+      path = os.path.join(self.config['defaults'], default)
       
       self.dbs_defaults[ident] = FSDB(path, self.config['single_proc'])
       self.dbs_defaults[ident].register(JsonFileType())
     
     return self.dbs_defaults[ident]
+  
+  
+  def set_proj_defaults(self, ident, default):
+    # Update record...
+    db = self.proj(ident)
+    proj = db['project.json']
+    p = proj.read()
+    p['default'] = default
+    proj.write(p)
+    
+    # Clear cache...
+    if ident in self.dbs_defaults:
+      del self.dbs_defaults[ident]
 
 
   def getUsers(self):
@@ -286,6 +306,16 @@ class RFAM:
         return targ
 
     return None
+  
+  
+  def defaultChoice(self, selected = None):
+    ret = []
+    for name in os.listdir(self.config['defaults']):
+      sel = 'selected' if selected==name else ''
+      ret.append('<option %s value="%s">%s</option>' % (sel, name, saxutils.escape(name)))
+    
+    ret = ''.join(sorted(ret))
+    return ret
   
   
   def typeChoice(self, project, selected = None):

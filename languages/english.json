@@ -1,5 +1,5 @@
 {
- "copyright" : "RFAM, copyright 2014-2016 Tom SF Haines / 3Dami",
+ "copyright" : "RFAM, copyright 2014-2017 Tom SF Haines / 3Dami",
  "NA" : "N/A",
  "not_found" : "(not found)",
  "old" : "old",
@@ -18,9 +18,7 @@
  "project:title" : "Title:",
  "project:description" : "Description:",
  "project:license" : "Licensing:",
- "project:fps" : "FPS:",
- "project:width" : "Width:",
- "project:height" : "Height:",
+ "project:default" : "Configuration:",
  "project:role" : "Role",
  "project:person" : "Person",
  "project:remove" : "Remove",

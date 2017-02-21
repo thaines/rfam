@@ -6,6 +6,9 @@ paths : Path to a directory that contains a .json file for each shared folder, i
 projects: Path to a directory of .json files specifying projects.
 users: Path to a directory of .json files specifying users.
 
+defaults: Path to a directory containing a directory for each project configuration.
+default: Default to use when it's not specified. The default default!
+
 log: Path and filename, with substitution, for a log file.
 single_proc: If true it does not bother with lock files etc. which saves time. Unsafe if multiple copies of bam are running as could result in corruption of .json files.
  
@@ -95,7 +98,6 @@ ident: Unique string identifying the user to the system.
 name: Name that is presented through the system, noting that this is more code name than final presentation name (e.g. Green Team).
 image: Image to use to represent the project, a group photo of the team is typical. Named path.
 directory: The directory that contains all of the projects files. Named path.
-default: The directory that contains all of the default files for the project, used to populate the interface. Named path.
 render.priority: The priority of rendering the project relative to the other projects in the system. Typically high for the films and low for the tutorials.
 
 

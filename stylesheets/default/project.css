@@ -14,41 +14,14 @@
  height: 10em;
 }
 
-#width
+#default select
 {
- float: left;
-}
-
-#width input
-{
- width: 100px;
-}
-
-#height
-{
- float: left;
- margin: 0px 0px 0px 16px;
-}
-
-#height input
-{
- width: 100px;
-}
-
-#fps
-{
- float: left;
- margin: 0px 0px 0px 16px;
-}
-
-#fps input
-{
- width: 70px; 
+ width: calc(100% - 24px);
 }
 
 #license
 {
- margin: -12px 0px -12px 0px;
+ margin: 0px 0px -12px 0px;
 }
 
 #license textarea

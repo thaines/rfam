@@ -163,9 +163,8 @@ $(function() {
  // The basic ones...
   tie_input('#title', 'project', 'title');
   tie_input('#description', 'project', 'description');
-  tie_input('#width', 'project', 'width');
-  tie_input('#height', 'project', 'height');
-  tie_input('#fps', 'project', 'fps');
+  
+  tie_input('#default', 'project', 'default');
   tie_input('#license', 'project', 'license');
  
  // The role stuff...

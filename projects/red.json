@@ -3,6 +3,5 @@
  "name" : "Red Team",
  "image" : "images::anons.jpg",
  "directory" : "data::red",
- "default" : "defaults::3Dami",
  "render.priority" : 1.0
 }

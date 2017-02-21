@@ -44,7 +44,7 @@ $(function() {
 
 
 
-// Function that, on being given a dome search that contains all the relevant parts of an input mechanism and status indicator, plus the relevant data path, sets the object to behave correctly - this is used for every data entry box in the system...
+// Function that, on being given a dom search that contains all the relevant parts of an input mechanism and status indicator, plus the relevant data path, sets the object to behave correctly - this is used for every data entry box in the system...
 function tie_input(search, path, key, refresh)
 {
  refresh = (typeof refresh === 'undefined') ? false : refresh;

@@ -3,6 +3,5 @@
  "name" : "Green Team",
  "image" : "images::anons.jpg",
  "directory" : "data::green",
- "default" : "defaults::3Dami",
  "render.priority" : 1.0
 }

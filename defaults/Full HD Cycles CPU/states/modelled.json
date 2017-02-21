@@ -1,0 +1,8 @@
+{
+ "ident" : "mod",
+ "name" : "Modelled",
+ "render" : false,
+ "boost" : true,
+ "time" : true,
+ "squeeze" : false
+}

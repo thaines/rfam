@@ -34,8 +34,11 @@ def app(rfam, response):
     p = None
     
   if p==None:
-    p = {'title' : rfam.getLanguage(response.user)['default_title'], 'description' : '', 'roles' : {}, 'ext_assets' : {}, 'license' : rfam.getLanguage(response.user)['default_license'], 'fps' : 24, 'width' : 2048, 'height' : 858}
+    p = {'title' : rfam.getLanguage(response.user)['default_title'], 'description' : '', 'roles' : {}, 'ext_assets' : {}, 'license' : rfam.getLanguage(response.user)['default_license'], 'default' : rfam.getDefault()}
     db.get_root().new('project.json', p)
+    
+  # Prepare the defaults part of the page...
+  choice_default = rfam.defaultChoice(p['default'])
   
   # Prepare the add roles part of the page...
   choice_people = rfam.userChoice(response.project)
@@ -64,7 +67,7 @@ def app(rfam, response):
   
   # Show the project page...
   head = '<link rel="stylesheet" href="/stylesheets/project.css"/>\n<script src="/javascript/project.js"></script>'
-  payload = {'title' : rfam.getLanguage(response.user)['project'], 'head' : head, 'project_title' : saxutils.escape(p['title']), 'project_description' : saxutils.escape(p['description']), 'project_license' : saxutils.escape(p['license']), 'project_fps' : p['fps'], 'project_width' : p['width'], 'project_height' : p['height'], 'roles' : roles, 'choice_people' : choice_people, 'ext_assets' : assets, 'header_extra' : credits_button}
+  payload = {'title' : rfam.getLanguage(response.user)['project'], 'head' : head, 'project_title' : saxutils.escape(p['title']), 'project_description' : saxutils.escape(p['description']), 'project_license' : saxutils.escape(p['license']), 'roles' : roles, 'choice_people' : choice_people, 'ext_assets' : assets, 'choice_default' : choice_default, 'header_extra' : credits_button}
   html = rfam.template('project', payload, response)
   
   response.append(html)
