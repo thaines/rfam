@@ -19,7 +19,7 @@ import xml.sax.saxutils as saxutils
 
 def asset(rfam, response):
   response.setJSON()
-  
+
   # Extract the path, key and value...
   path = response.getPath()
   path = path[2:]
@@ -27,7 +27,7 @@ def asset(rfam, response):
   
   key   = response.getQuery()['key']
   value = saxutils.unescape(response.getQuery()['value'])
-  
+
   # Verify the inputs are sane...
   db = rfam.proj(response.project)
   try:
@@ -36,7 +36,7 @@ def asset(rfam, response):
     response.make418()
     return
   
-  if key not in ['name', 'description', 'owner', 'type', 'state', 'priority', 'render', 'final', 'support']:
+  if key not in ['name', 'description', 'owner', 'type', 'state', 'priority', 'render', 'final', 'support', 'rating']:
     response.make418()
     return
     

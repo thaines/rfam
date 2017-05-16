@@ -32,13 +32,14 @@ from bin import head # Provides the image of a user.
 from bin import heads # Provides the image of a team.
 from bin import images # Provides access to the various images - the update status icons for ajax.
 
-from bin import login # The login screen
+from bin import login # The login screen.
 from bin import home # The home screen, which shows a summary of current users tasks.
 from bin import assets # Asset list screen.
 from bin import asset # Screen for editing a single asset.
 from bin import new # Screen for creating a new asset.
 from bin import team #  Screen that shows the team and what they should be working on.
 from bin import project # Screen that shows the project overview.
+from bin import shots # Overview of shots and their state.
 from bin import rendering # Web interface for rendering.
 
 from bin import store # Handles all the ajax updates for all the interface elements.
@@ -71,6 +72,7 @@ modules['asset'] = asset.app
 modules['new'] = new.app
 modules['team'] = team.app
 modules['project'] = project.app
+modules['shots'] = shots.app
 modules['rendering'] = rendering.app
 
 modules['store'] = store.app

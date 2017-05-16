@@ -14,7 +14,7 @@
  "templates" : "templates",
  "stylesheets" : "stylesheets/default",
  "javascript" : "javascript",
- "logo" : "images/icon.png",
+ "logo" : "images/logo.png",
  "icon" : "images/icon.png",
  
  "port" : 8080,

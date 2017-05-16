@@ -1,0 +1,125 @@
+#shots
+{
+ border-collapse: collapse;
+ width: 100%;
+}
+
+#shots tr:nth-child(2n+4)
+{
+ background-color: #ff7900;
+}
+
+#shots tr:nth-child(n+3):hover
+{
+ background-color: #ffcd22;
+}
+
+#shots .name
+{
+ cursor: pointer; 
+}
+
+#shots_head
+{
+ font: 14px/18px Georgia; 
+}
+
+#shots hr
+{
+ border: 0px;
+ padding: 0px;
+ margin: 0px;
+ background: #000;
+ height: 2px;
+}
+
+.shot
+{
+ font: 16px/18px Georgia;
+}
+
+.name a
+{
+ font: 18px Georgia;
+ font-weight: bold;
+ color: #000; 
+}
+
+.name a:hover
+{
+ color: #420;
+}
+
+.owner
+{
+ text-align: center;  
+}
+
+.ratingtd
+{
+ text-align: center;
+}
+
+.rating
+{
+ text-align: left;
+ display: inline-block;
+ width: 224;
+}
+
+.rating div
+{
+ display: inline-block;
+ width: 32px;
+ height: 32px;
+ margin: 0px;
+ padding: 0px;
+}
+
+
+.r0
+{
+ width: 16px;
+}
+
+.r1
+{
+ background-image:url('/images/cake0002.png');
+}
+
+.r2
+{
+ background-image:url('/images/cake0003.png');
+}
+
+.r3
+{
+ background-image:url('/images/cake0004.png');
+}
+
+.r4
+{
+ background-image:url('/images/cake0005.png');
+}
+
+.r5
+{
+ background-image:url('/images/cake0006.png');
+}
+
+.r6
+{
+ width: 16px;
+}
+
+
+.rating:not(:hover) .off
+{
+ background-image:url('/images/cake0001.png');
+}
+
+
+.rating div:hover ~ div
+{
+ background-image:url('/images/cake0001.png');
+}
