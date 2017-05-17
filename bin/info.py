@@ -39,10 +39,12 @@ def app(rfam, response):
   
   info = db[path].read()
   
-  # Augment the information with extra stuff extracted from the .blend file...
+  # start and end might not already exist, so add them if need be...
   info = dict(info)
-  info['start' ] = 1 # Need to extract these from the file!
-  info['end' ] = 24
+  if 'start' not in info:
+    info['start' ] = '1'
+  if 'end' not in info:
+    info['end' ] = '24'
   
   # Return the contents of the .json file...
   response.append(json.dumps(info))

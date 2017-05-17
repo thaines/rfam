@@ -35,6 +35,34 @@ function on_file_select(path)
 
 
 
+function change_start()
+{
+ var callback = function(response) {};
+ 
+ path = $('#name').attr('data-path');
+ if (path!='')
+ {
+  start = $('#start input').val();
+  $.get('/store/asset/' + path, {'key':'start', 'value':start}, callback);
+ }
+}
+
+
+
+function change_end()
+{
+ var callback = function(response) {};
+ 
+ path = $('#name').attr('data-path');
+ if (path!='')
+ {
+  end = $('#end input').val();
+  $.get('/store/asset/' + path, {'key':'end', 'value':end}, callback);
+ }
+}
+
+
+
 // Function that does the work when the user asks to render a job...
 function render()
 {
@@ -274,6 +302,10 @@ function emergency_start()
 $(function() {
  // Make the file selector walk...
   selector_load('', on_file_select, false, true);
+  
+ // Make the frame range remember...
+  $('#start').bind('keyup mouseup', change_start);
+  $('#end').bind('keyup mouseup', change_end);
   
  // Make render job creation crawl...
   $('#render').click(render);
