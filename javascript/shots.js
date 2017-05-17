@@ -38,6 +38,45 @@ function rating_click()
 
 
 
+function pipeline_record(pipeline)
+{
+ var callback = function(response)
+ {
+  if (response)
+  {
+   pipeline.find('.state_sync').attr('class', 'state_ok'); 
+   pipeline.find('.state_error').attr('class', 'state_ok');
+  }
+  else
+  {
+   pipeline.find('.state_ok').attr('class', 'state_error'); 
+   pipeline.find('.state_sync').attr('class', 'state_error'); 
+  }
+ };
+ 
+ path = pipeline.parent().attr('data-path');
+ $.getJSON('/store/asset/' + path, {'key':'pipeline', 'value':$(pipeline).find('select').val()}, callback);
+}
+
+
+
+function pipeline_change()
+{
+ // Update class of select so it has the right colour...
+  $(this).attr('class', $(this).children(':selected').val())
+  
+ // Swap the icon to indicate we are synching...
+  $(this).parent().find('.state_ok').attr('class', 'state_sync');
+  $(this).parent().find('.state_error').attr('class', 'state_sync');
+    
+ // Arrange for the update to happen only after a timeout, so it doesn't do it with every keypress...
+  var pipeline = $(this).parent();
+  clearTimeout($(this).data('timeout'));
+  $(this).data('timeout', setTimeout(function(){pipeline_record(pipeline)}, 500)); 
+}
+
+
+
 // Setup all the handlers...
 $(function() {
  // Clicking a shot should load its asset link...
@@ -54,4 +93,16 @@ $(function() {
   
  // Make the ratings work...
   $('.rating div').click(rating_click);
+  
+ // Correct which is selected for pipeline selector...
+  $('.pipeline select').each(function()
+  {
+   $(this).val($(this).attr('class'));
+  });
+ 
+ // Make the pipeline selector work...
+  $('.pipeline select').data('timeout', null)
+                       .change(pipeline_change)
+                       .keyup(pipeline_change)
+                       .keydown(pipeline_change);
 });

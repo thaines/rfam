@@ -123,3 +123,29 @@
 {
  background-image:url('/images/cake0001.png');
 }
+
+
+.pipeline
+{
+ text-align: center;
+}
+
+.pipeline select option[value="wait"], select.wait
+{
+ background-color: #FF6060;
+}
+
+.pipeline select option[value="ready"], select.ready
+{
+ background-color: #FFFFFF;
+}
+
+.pipeline select option[value="proc"], select.proc
+{
+ background-color: #FFFF30;
+}
+
+.pipeline select option[value="done"], select.done
+{
+ background-color: #60FF60;
+}

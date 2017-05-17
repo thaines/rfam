@@ -2,5 +2,5 @@
 <td class="name"><a href="/asset/%(path)s">%(name)s</a></td>
 <td class="owner"><select>%(owner)s</select><div class="state_ok"></div></td>
 <td class="ratingtd"><rating class="rating"><div class="r0"></div><div class="r1 %(r1)s"></div><div class="r2 %(r2)s"></div><div class="r3 %(r3)s"></div><div class="r4 %(r4)s"></div><div class="r5 %(r5)s"></div></div></td>
-<td class="pipeline"></td>
+<td class="pipeline"><select class="%(pipeline)s"> <option value="wait">%(text:pipeline:wait)s</option> <option value="ready">%(text:pipeline:ready)s</option> <option value="proc">%(text:pipeline:proc)s</option> <option value="done">%(text:pipeline:done)s</option></select><div class="state_ok"></div></td>
 </tr>

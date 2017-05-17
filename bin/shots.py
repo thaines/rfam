@@ -49,8 +49,9 @@ def app(rfam, response):
       
       owner = rfam.userChoice(response.project, meta['owner'], True)
       rating = int(meta['rating']) if 'rating' in meta else 0
+      pipeline = meta['pipeline'] if 'pipeline' in meta else 'wait'
       
-      payload = {'id' : str(ident), 'path' : attr_escape(('/'.join(path))[:-5]), 'name' : meta['name'], 'owner' : owner, 'r1' : 'on' if rating>=1 else 'off', 'r2' : 'on' if rating>=2 else 'off', 'r3' : 'on' if rating>=3 else 'off', 'r4' : 'on' if rating>=4 else 'off', 'r5' : 'on' if rating>=5 else 'off'}
+      payload = {'id' : str(ident), 'path' : attr_escape(('/'.join(path))[:-5]), 'name' : meta['name'], 'owner' : owner, 'r1' : 'on' if rating>=1 else 'off', 'r2' : 'on' if rating>=2 else 'off', 'r3' : 'on' if rating>=3 else 'off', 'r4' : 'on' if rating>=4 else 'off', 'r5' : 'on' if rating>=5 else 'off', 'pipeline' : pipeline}
       shots.append((meta['name'], rfam.template('shots.row', payload, response)))
       
       ident += 1

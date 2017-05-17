@@ -36,7 +36,7 @@ def asset(rfam, response):
     response.make418()
     return
   
-  if key not in ['name', 'description', 'owner', 'type', 'state', 'priority', 'render', 'final', 'support', 'rating']:
+  if key not in ['name', 'description', 'owner', 'type', 'state', 'priority', 'render', 'final', 'support', 'rating', 'pipeline']:
     response.make418()
     return
     

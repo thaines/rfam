@@ -122,5 +122,9 @@
  "render_time:estimate" : "Complete Render Estimate = ",
  "render_time:estimate:min" : "Lower Complete Render Estimate = ",
  "render_time:estimate:max" : "Upper Complete Render Estimate = ",
- "render_time:div" : ";<br/>"
+ "render_time:div" : ";<br/>",
+ "pipeline:wait" : "Improving",
+ "pipeline:ready" : "Ready",
+ "pipeline:proc" : "Rendering",
+ "pipeline:done" : "Done"
 }
