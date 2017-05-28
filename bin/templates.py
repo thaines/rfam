@@ -71,8 +71,8 @@ class Templates:
       
       # Infer its name and parent...
       naked = fn[:-5] # Cull the .html
-      if ':' in naked:
-        name, parent = naked.split(':', 1)
+      if '+' in naked:
+        name, parent = naked.split('+', 1)
       else:
         name = naked
         parent = None
