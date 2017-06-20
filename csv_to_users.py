@@ -43,9 +43,9 @@ f.close()
 
 # Load the csv file, and loop each line in turn...
 for row in csv.reader(open(sys.argv[1], newline='')):
-  name = row[0]
-  username = row[1]
-  projects = [n for n in row[2:] if len(n)!=0]
+  name = row[0].strip()
+  username = row[1].strip()
+  projects = [n.strip() for n in row[2:] if len(n)!=0]
   
   
   fn = os.path.join(config['users'], username + '.json')
