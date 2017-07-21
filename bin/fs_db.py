@@ -151,7 +151,9 @@ class Node(collections.Mapping):
 
 
   def read(self):
-    """Reads the file and returns an object representing it. Note that the object may be cached for future calls to read, and therefore must not be edited (Unless it is to be immediatly sent to the write method)."""
+    """Reads the file and returns an object representing it.
+    Note that the object may be cached for future calls to read,
+    and therefore must not be edited (Unless it is to be immediatly sent to the write method)."""
     if self.ftype==None:
       raise TypeError('File type does not have a registered file handler')
     

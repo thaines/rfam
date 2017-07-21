@@ -27,7 +27,7 @@ import subprocess
 from urllib.request import urlopen
 
 from worker import Worker
-
+from prman_worker import prman_Worker
 
 
 class Node:
@@ -48,10 +48,10 @@ class Node:
         f.close()
         
         self.paths[path['ident']] = path['path']
-    
+
     # Setup the heartbeat value - None means we don't yet know it (ask the server...)...
     self.last_info = 0.0 # Offset from unix epoc, so will update immediatly.
-    self.heartbeat = 4.0
+    self.heartbeat = 1.0
     self.arrhythmia = 1.0
     self.error_scale = 2.0
     self.hibernation = 600.0
@@ -71,6 +71,9 @@ class Node:
     
     # Create the workers...
     self.workers = [Worker(self, c) for c in self.config['processes']]
+
+    # Also create prman workers - the node decide upon receipt of a commandment what to do
+    self.prman_workers = [prman_Worker(self, c) for c in self.config['processes']]
     
     self.first_hello = True
   
@@ -107,15 +110,32 @@ class Node:
       if not worker.busy():
         lazy_workers.append(worker)
     
-    if len(lazy_workers)!=0 and (self.first_hello or self.config['single_use']==False):
+    #PRMAN WORKERS----------
+    lazy_workers_prman = []
+    for worker in self.prman_workers:
+      r = worker.state()
+      if r!=None:
+        requests.append(r)
+        if r['id']=='done':
+          print(datetime.datetime.utcnow().isoformat(' '), ':: Rendered frame %s of %s in %.1f seconds' % (str(worker.frame), worker.fn, r['time']))
+          self.must_send.append(r)
+      
+      if not worker.busy():
+        lazy_workers_prman.append(worker)
+    #PRMAN WORKERS----------
+
+    if (len(lazy_workers)!=0 and (self.first_hello or self.config['single_use']==False)) \
+      and (len(lazy_workers_prman)!=0 and (self.first_hello or self.config['single_use']==False)):
       self.first_hello = False
       print(datetime.datetime.utcnow().isoformat(' '), ':: Requesting %i job(s)' % len(lazy_workers))
       requests.append({'id' : 'task', 'paths' : [p for p in self.paths.keys()], 'provides' : self.config['provides'], 'count' : len(lazy_workers)})
-    
+
+    print('requests: ', requests)
     # Send it to the server...
     try:
       req = urlopen('%s/farm'%self.config['server'], json.dumps(requests).encode('utf-8'))
     except IOError:
+      print('Error talking to server!')
       # Problem - return as such...
       return None
 
@@ -123,7 +143,6 @@ class Node:
     
     # Parse the data...
     commandments = json.loads(req.read().decode('utf-8'))
-    
     # Go through and handle the commandments...
     for commandment in commandments:
       if commandment['id']=='info':
@@ -140,20 +159,29 @@ class Node:
         print('  File %s' % commandment['file'])
         print('  Frame %s' % commandment['frame'])
         
-        worker = lazy_workers.pop()
-        worker.run(commandment)
+        if commandment['prmanCommands']:
+          worker = lazy_workers_prman.pop()
+          worker.run(commandment)
+        else:
+          worker = lazy_workers.pop()
+          worker.run(commandment)
         
       elif commandment['id']=='kill':
         print(datetime.datetime.utcnow().isoformat(' '), ':: Kill request for task %s, frame %i' % (commandment['uuid'], commandment['frame']))
+        #kill workers
         for worker in self.workers:
           worker.kill(commandment)
-
+        #PRMAN WORKERS----------
+        for worker in self.prman_workers:
+          worker.kill(commandment)
+        #PRMAN WORKERS----------
       else:
         print(datetime.datetime.utcnow().isoformat(' '), ':: Unknown commandment:')
         print(commandment)
     
     # Get a list of processes we need to wait for to return...
-    return [worker.p() for worker in self.workers if worker.busy()]
+    #PRMAN WORKERS----------
+    return [worker.p() for worker in self.workers if worker.busy()] + [worker.p() for worker in self.prman_workers if worker.busy()]
 
 
   def run(self):
@@ -163,11 +191,14 @@ class Node:
     
     while True:
       # Say hello to the server...
+      print('Saying hello!')
       wait_on = self.hello()
+      print('Hello done!')
       if wait_on==None:
         wait_on = []
         print(datetime.datetime.utcnow().isoformat(' '), ':: Error talking to server - will retry')
         self.errors += 1
+        print('Hello Error!')
       else:
         self.errors = 0
       
@@ -179,22 +210,27 @@ class Node:
           hb = self.hibernation
       
       hb += self.arrhythmia * random.random()
-      
+      print('hb: ', hb)
+
       # Sleep, either with wake on one of the processes ending or just sleep...
       if len(wait_on)==0:
         if self.config['single_use']: # In single use mode this basically means we are done.
+          print('NODE: ALL Done!')
           return
         
+        print('Sleeping...')
         time.sleep(hb)
         
       else:
         end = time.time() + hb
         tick = self.config['tick']
         
+        print('Check if processes are done...')
         while time.time() < end: # Could someone please tell me a better way of doing this:-/
+          print('Checking for done ... ', time.time(), ' ', end)
           done = False
           for proc in wait_on:
-            if proc.poll()!=None:
+            if proc.poll() != None:
               done = True
               break
           if done:

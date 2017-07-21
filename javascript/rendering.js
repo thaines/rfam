@@ -62,6 +62,37 @@ function change_end()
 }
 
 
+function renderAlf()
+{
+  // 0. get some data from the page
+  // Get the parameters...
+  var path = $('#name').attr('data-path');
+  var name = $('#name input').val();
+  var start = $('#start input').val();
+  var end = $('#end input').val();
+  var final = $('#final input').is(':checked');
+  
+  var start = parseInt(start)
+  var end = parseInt(end)
+ 
+  // 3. dispatch to renderfarm
+  // Callback to handle the job response...
+  var callback = function(response)
+  {
+   if (response)
+   {
+    alert(response[0]);
+    location.reload();
+   }
+   else
+   {
+    alert('ERROR: Unknown Error creating prman render job!');  
+   }
+  };
+ 
+  // Do the actual call (the the new add/job_prman function)...
+  $.getJSON('/add/job_prman/' + path, {'name' : name, 'start' : start, 'end' : end, 'final' : final}, callback);
+}
 
 // Function that does the work when the user asks to render a job...
 function render()
@@ -91,10 +122,17 @@ function render()
    alert('Your frame range is backwards');
    return;
   }
+
+  //use a different function for rendering .alf files
+  if (path.endsWith('.alf'))
+  {
+    return renderAlf()
+  }
  
  // Callback to handle the job response...
   var callback = function(response)
   {
+    print('Regular callback')
    if (response)
    {
     location.reload();

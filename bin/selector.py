@@ -67,6 +67,12 @@ def app(rfam, response):
         payload = {'path' : saxutils.escape('/'.join(path + [part])), 'name' : part}
         html = rfam.template('selector.file', payload, response)
         response.append(html)
+      #we also show .alf files, from which commands can be extracted and which link to local .ribs
+      #this prevents the need of adding a special asset for a prman job
+      elif node.isa()==node.FILE and part.endswith('.alf'):
+        payload = {'path' : saxutils.escape('/'.join(path + [part])), 'name' : part}
+        html = rfam.template('selector.file', payload, response)
+        response.append(html)
   
   else:
     for part in parent:
