@@ -130,12 +130,10 @@ class Node:
       print(datetime.datetime.utcnow().isoformat(' '), ':: Requesting %i job(s)' % len(lazy_workers))
       requests.append({'id' : 'task', 'paths' : [p for p in self.paths.keys()], 'provides' : self.config['provides'], 'count' : len(lazy_workers)})
 
-    print('requests: ', requests)
     # Send it to the server...
     try:
       req = urlopen('%s/farm'%self.config['server'], json.dumps(requests).encode('utf-8'))
     except IOError:
-      print('Error talking to server!')
       # Problem - return as such...
       return None
 
@@ -191,14 +189,11 @@ class Node:
     
     while True:
       # Say hello to the server...
-      print('Saying hello!')
       wait_on = self.hello()
-      print('Hello done!')
       if wait_on==None:
         wait_on = []
         print(datetime.datetime.utcnow().isoformat(' '), ':: Error talking to server - will retry')
         self.errors += 1
-        print('Hello Error!')
       else:
         self.errors = 0
       
@@ -210,24 +205,19 @@ class Node:
           hb = self.hibernation
       
       hb += self.arrhythmia * random.random()
-      print('hb: ', hb)
 
       # Sleep, either with wake on one of the processes ending or just sleep...
       if len(wait_on)==0:
         if self.config['single_use']: # In single use mode this basically means we are done.
-          print('NODE: ALL Done!')
           return
-        
-        print('Sleeping...')
+    
         time.sleep(hb)
         
       else:
         end = time.time() + hb
         tick = self.config['tick']
         
-        print('Check if processes are done...')
         while time.time() < end: # Could someone please tell me a better way of doing this:-/
-          print('Checking for done ... ', time.time(), ' ', end)
           done = False
           for proc in wait_on:
             if proc.poll() != None:
