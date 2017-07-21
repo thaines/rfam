@@ -256,7 +256,6 @@ class Jobs:
 
 
   def task_select(self, ident, paths, provides = []):
-    print('Selecting Task!')
     """Selects a job - you provide a list of paths the node has access to and a list of strings for features that it provides.
     From this it selects and returns a job, noting that it will record that the node with the given ident is working on it.
     If no job is avaliable it returns None; if one is avaliable it returns the dictionary
@@ -320,7 +319,6 @@ class Jobs:
     # Draw a job (project then job), select which work item we are going with...
     ## Project...
     if len(options)==0:
-      print('No work!')
       return None # No work!
     
     elif len(options)==1:
@@ -387,7 +385,6 @@ class Jobs:
           break
     
     if not ok: # Something has gone wrong - avoid a crash.
-      print('Avoiding Crash!')
       return None
       
     task = [frame, ident, now]
@@ -396,7 +393,6 @@ class Jobs:
     
     root[name].write(todo)
     
-    print('Returning new task!')
     # Return the task for the node to do...
     newtask =  {'uuid' : todo['uuid'], 'frame' : task[0], 'file' : todo['file'], 'issued' : now, 'requires' : todo['requires'], 'prmanCommands' : job['prmanCommands']}
     return newtask
