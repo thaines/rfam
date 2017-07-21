@@ -16,6 +16,7 @@
 import time
 import os
 import re
+import json
 
 import threading
 import subprocess
@@ -43,6 +44,10 @@ class prman_Worker:
     self.start = time.time()
     self.last_line = ''
     self.printDebug = printDebug
+
+    #lists to hold outputs
+    self.outLogs = []
+    self.errLogs = []
   
   
   def busy(self):
@@ -115,6 +120,10 @@ class prman_Worker:
 
     self.frameCommands = commandment['prmanCommands']['commands']['frames'][str(self.frame)]
     self.frameCommandsTODO = len(self.frameCommands)
+
+    #create a unique name for the log file
+    self.currentLogFileName = os.path.abspath(self.cwd + '/log_' + str(time.time()) + '.json')
+
     if self.printDebug:
       print('NOTE: Worker received new commands: ', self.frameCommands)
 
@@ -224,18 +233,29 @@ class prman_Worker:
     self.popenAndCall(nextCommand)
   
   def onExit(self):
-    print('WORKER: OnExit', self.frameCommandsTODO)
+    if self.printDebug:
+      print('WORKER: OnExit', self.frameCommandsTODO)
+    
     #decrease the command counter
     self.frameCommandsTODO -= 1
-
     self.procInitialised = False
     #if its zero, just do nothing
     #otherwise, launch the next command
     if self.frameCommandsTODO > 0:
       self.launchNextCommand()
     else:
+      #make sure to write output to log file
+      if self.printDebug:
+        print('OUT: ', self.outLogs)
+        print('ERR: ', self.errLogs)
+      if self.node.config['prman_write_log_files']:
+        with open(self.currentLogFileName, 'w') as outfile:
+          json.dump({'stdout' : self.outLogs, 'stderr' : self.errLogs}, outfile)
+      
       self.frameCommandsTODO = 0
       self.proc = None
+      self.outLogs = []
+      self.errLogs = []
   
   def runInThread(self, popenArgs):
     #create an environment with prman's bin directory in the path
@@ -249,18 +269,24 @@ class prman_Worker:
     if self.printDebug:
       print('NOTE: Thread command: ', popenArgs)
       print('ENV: ', env)
-    
+
     #run the command in that environment
     self.proc = subprocess.Popen(popenArgs,
       universal_newlines = True,
       env = my_env,
-      shell = True)
+      shell = True,
+      stdout = subprocess.PIPE, stderr=subprocess.PIPE)
     
     #use to prevent race condition occuring because of thread launch time
     self.procInitialised = True
 
     self.start = time.time()
-    self.proc.wait()
+    #this will include a call to subprocess.wait()
+    #append out and err to already existing logs
+    out, err = self.proc.communicate()
+    self.outLogs.append(out)
+    self.errLogs.append(err)
+
     if self.printDebug:
       print('NOTE: Finished Thread!')
     self.onExit()

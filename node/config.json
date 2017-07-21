@@ -18,5 +18,6 @@
  "jitter" : 10.0,
  
  "prman_path" : "C:\\Program Files\\Pixar\\RenderManProServer-21.4\\bin",
- "prman_override_thread_count" : false
+ "prman_override_thread_count" : false,
+ "prman_write_log_files" : true
 }
