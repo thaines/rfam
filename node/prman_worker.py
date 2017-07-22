@@ -212,14 +212,26 @@ class prman_Worker:
         return command
       else:
         return command.replace(command[start:end+1], '-t:' + str(replacement))
-  
+
+  def replace_denoise_paths(self, command):
+    quoted_paths = re.findall(r'\"(.+?)\"', command)
+    for p in quoted_paths:
+      command = command.replace(p, os.path.join(self.cwd, p))
+    if self.printDebug:
+      print('WORKER: New Denoise Command: ', command)
+    return command
+
   def launchNextCommand(self):
     #get the current command
     nextCommand = self.frameCommands[len(self.frameCommands) - self.frameCommandsTODO]['command']
     
     if nextCommand.startswith('denoise'):
+      #make the denoise paths absolute relative to current node
+      nextCommand = self.replace_denoise_paths(nextCommand)
+      #override thread count if necessary 
       if self.node.config["prman_override_thread_count"]:
         nextCommand = self.replace_threads_arg(nextCommand, self.threads)
+
     elif nextCommand.startswith('prman'): 
       #rebuild the RemoteCmd for the target configuration
       nextCommand = self.replace_cwd_arg(nextCommand, '-cwd \"' + self.cwd + '\"')
