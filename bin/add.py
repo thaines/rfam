@@ -21,7 +21,7 @@ import xml.sax.saxutils as saxutils
 from .priority import true_priority
 from .fs_db import *
 
-import bin.prman_AlfParser as alfParser
+import .prman_AlfParser as alfParser
 
 
 def asset(rfam, response):
@@ -104,7 +104,7 @@ def job_prman(rfam, response):
   # Load and parse the alf file
   try:
     # Make the path compatible for windows and linux
-    actualFilePath = os.path.abspath(fn.replace('::', '/'))
+    actualFilePath = rfam.real(fn)
     # Attempt to parse the .alf file
     parser = alfParser.prman_AlfParser()
     with open(actualFilePath, 'r') as myfile:
