@@ -21,7 +21,7 @@ import xml.sax.saxutils as saxutils
 from .priority import true_priority
 from .fs_db import *
 
-import .prman_AlfParser as alfParser
+from .prman_AlfParser import prman_AlfParser
 
 
 def asset(rfam, response):
@@ -106,7 +106,7 @@ def job_prman(rfam, response):
     # Make the path compatible for windows and linux
     actualFilePath = rfam.real(fn)
     # Attempt to parse the .alf file
-    parser = alfParser.prman_AlfParser()
+    parser = prman_AlfParser()
     with open(actualFilePath, 'r') as myfile:
           data = myfile.read()
     textureCommands, frameCommands, frameIdxs = parser.parseFile(data)

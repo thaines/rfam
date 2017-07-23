@@ -259,7 +259,7 @@ class prman_AlfParser:
                 #get commands for all frames
                 else:
                     newCommands, frames = self.extractCommandsForFrame(t)
-                    commands = {**commands, **newCommands}
+                    commands.update(newCommands)
 
         return textureCommands, commands, frames
     
