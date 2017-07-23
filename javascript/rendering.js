@@ -132,7 +132,6 @@ function render()
  // Callback to handle the job response...
   var callback = function(response)
   {
-    print('Regular callback')
    if (response)
    {
     location.reload();
