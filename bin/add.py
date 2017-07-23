@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import json
 import os.path
 import uuid
 import xml.sax.saxutils as saxutils
@@ -20,6 +21,7 @@ import xml.sax.saxutils as saxutils
 from .priority import true_priority
 from .fs_db import *
 
+import .prman_AlfParser as alfParser
 
 
 def asset(rfam, response):
@@ -73,6 +75,94 @@ def asset(rfam, response):
   response.append('true')
 
 
+def job_prman(rfam, response):
+  # Extract the request - path plus parameters...
+  path  = response.getPath()[2:]
+  name = response.getQuery()['name']
+
+  # If this is not an alf file, return early
+  if not name.endswith('.alf'):
+    reponse.setJSON()
+    response.append(json.dumps(['ERROR: Job must be a .alf file!']))
+    return
+
+  start = int(response.getQuery()['start'])
+  end   = int(response.getQuery()['end'])
+  final = response.getQuery()['final']=='true'
+  
+  # Verify the path exists...
+  db = rfam.proj(response.project)
+  if path not in db:
+    response.setJSON()
+    response.append(json.dumps(['ERROR: Path to file does not exist!']))
+    return
+  
+  # Convert path into a proper filename...
+  ps = rfam.getProject(response.project)
+  fn = os.path.join(ps['directory'], *path)
+
+  # Load and parse the alf file
+  try:
+    # Make the path compatible for windows and linux
+    actualFilePath = rfam.real(fn)
+    # Attempt to parse the .alf file
+    parser = alfParser.prman_AlfParser()
+    with open(actualFilePath, 'r') as myfile:
+          data = myfile.read()
+    textureCommands, frameCommands, frameIdxs = parser.parseFile(data)
+  except:
+    response.setJSON()
+    response.append(json.dumps(['ERROR: The .alf file could not be parsed!']))
+    return
+
+  # Make sure the frame range checks out!
+  jobMinFrame = frameIdxs[0]
+  jobMaxFrame = frameIdxs[-1]
+
+  # Correct it if necessary
+  start_corrected = max(start, jobMinFrame)
+  end_corrected = min(end, jobMaxFrame)  
+
+  # Make sure the result is still anything valid
+  if start_corrected > end_corrected:
+    response.setJSON()
+    response.append(json.dumps(['ERROR: Given the actual number of jobs exported in the .alf file' \
+    + ' [ ' + str(jobMinFrame) + ' - ' + str(jobMaxFrame) + ' ], the requested job' \
+    + ' [ ' + str(start) + ' - ' + str(end_corrected) + ' ] is invalid!']))
+    return
+
+  # Make sure there are no pre-processing commands (alternatively process locally)
+  if len(textureCommands) > 0:
+    response.setJSON()
+    response.append(json.dumps(['ERROR: The .alf job contains texture conversion commands which must be processed locally!']))
+
+  # Calculate the jobs default priority...
+  json_path = path[:]
+  json_path[-1] += '.json'
+  
+  if json_path in db:
+    priority = true_priority(rfam, response.project, db[json_path], db)
+  else:
+    settings = rfam.proj_defaults(response.project)['priority.json'].read()
+    priority = settings['low']
+  
+  #create some json for commands
+  prmanCommands = {'commands' : { 'texture' : textureCommands, 'frames' : frameCommands } }
+
+  # Create the job...
+  uuid = rfam.jobs.add(name, response.project, fn, start_corrected, end_corrected,
+    priority, final, [], json_path, prmanCommands = prmanCommands)
+  
+  # Create a response string to inform the user of the actual frame range used
+  responseString = 'You requested processing of frames [ ' + str(start) + ' - ' + str(end) + ' ].' \
+  + ' Ribs were exported for frames [ ' + str(jobMinFrame) + ' - ' + str(jobMaxFrame) + ' ].' \
+  + ' The system will render [ ' + str(start_corrected) + ' - ' + str(end_corrected) + ' ].'
+
+  # Return success...
+  rfam.log(response, 'new_job(%s,%s,%i,%i,%s)' % (uuid, name, start, end, fn))
+  response.setJSON()
+  response.append(json.dumps([responseString]))
+  return
 
 def job(rfam, response):
   # Extract the request - path plus parameters...
@@ -179,6 +269,7 @@ def ext_asset(rfam, response):
   # Report success...
   rfam.log(response, 'new_external_asset(%s,%s,%s,%s)' % (ident, description, license, origin))
   response.append('true')
+  response.add()
 
 
 
@@ -199,6 +290,8 @@ def app(rfam, response):
     asset(rfam, response)
   elif path[1]=='job':
     job(rfam, response)
+  elif path[1]=='job_prman':
+    job_prman(rfam, response)
   elif path[1]=='role':
     role(rfam, response)
   elif path[1]=='ext_asset':

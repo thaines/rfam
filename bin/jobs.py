@@ -125,7 +125,7 @@ class Jobs:
       node.remove()
   
   
-  def add(self, name, project, fn, min_frame, max_frame, priority, video = False, requires = [], meta = None):
+  def add(self, name, project, fn, min_frame, max_frame, priority, video = False, requires = [], meta = None, prmanCommands = None):
     """Adds a job - takes quite a lot of parameters but initialises a bunch more. Returns the uuid of the new job. name is a human readable identifier, project the identifier of the project its from, fn the filename, including a path, so its filesystem agnostic, min_frame and max_frame define the range to render, priority the priority of rendering. video can be set to True to use video mode and requires is a list of strings, identifying features that rendering nodes must have to render this asset."""
     
     job = dict()
@@ -148,6 +148,7 @@ class Jobs:
     job['time_count'] = 0
     job['errors'] = 0
     job['potential'] = [] # For the potential jobs system.
+    job['prmanCommands'] = prmanCommands
     
     if self.bin_search_order:
       job['todo'] = bin_search_order(job['todo'])
@@ -255,7 +256,13 @@ class Jobs:
 
 
   def task_select(self, ident, paths, provides = []):
-    """Selects a job - you provide a list of paths the node has access to and a list of strings for features that it provides. From this it selects and returns a job, noting that it will record that the node with the given ident is working on it. If no job is avaliable it returns None; if one is avaliable it returns the dictionary {'uuid' : uuid of job, 'frame' : index of frame to render, min-max tuple to do a video render, 'file' : File of the .blend to render, inc. path, 'issued' : GMT time of issue, 'requires' : List of features it requires.}. Node that this assumes that the user called report for the given ident first."""
+    """Selects a job - you provide a list of paths the node has access to and a list of strings for features that it provides.
+    From this it selects and returns a job, noting that it will record that the node with the given ident is working on it.
+    If no job is avaliable it returns None; if one is avaliable it returns the dictionary
+    {'uuid' : uuid of job, 'frame' : index of frame to render, min-max tuple to do a video render,
+    'file' : File of the .blend to render, inc. path, 'issued' : GMT time of issue,
+    'requires' : List of features it requires.}.
+    Node that this assumes that the user called report for the given ident first."""
 
     # Loop all jobs, calculating the weight (factor in priority, runtime and requires!) of selecting a work item from each, where compatible...
     options = defaultdict(list)
@@ -387,8 +394,8 @@ class Jobs:
     root[name].write(todo)
     
     # Return the task for the node to do...
-    return {'uuid' : todo['uuid'], 'frame' : task[0], 'file' : todo['file'], 'issued' : now, 'requires' : todo['requires']}
-  
+    newtask =  {'uuid' : todo['uuid'], 'frame' : task[0], 'file' : todo['file'], 'issued' : now, 'requires' : todo['requires'], 'prmanCommands' : job['prmanCommands']}
+    return newtask
   
   def task_alive(self, ident, uuid, frame, done = 0, total = 1):
     """Called to indicate that we just received a heartbeat for the given task, so it can be kept alive. ident is provided so that it can verify the node should be doing the task - returns True if it should continue, False if it should die."""

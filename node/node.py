@@ -27,7 +27,7 @@ import subprocess
 from urllib.request import urlopen
 
 from worker import Worker
-
+from prman_worker import prman_Worker
 
 
 class Node:
@@ -48,10 +48,10 @@ class Node:
         f.close()
         
         self.paths[path['ident']] = path['path']
-    
+
     # Setup the heartbeat value - None means we don't yet know it (ask the server...)...
     self.last_info = 0.0 # Offset from unix epoc, so will update immediatly.
-    self.heartbeat = 4.0
+    self.heartbeat = 1.0
     self.arrhythmia = 1.0
     self.error_scale = 2.0
     self.hibernation = 600.0
@@ -71,6 +71,9 @@ class Node:
     
     # Create the workers...
     self.workers = [Worker(self, c) for c in self.config['processes']]
+
+    # Also create prman workers - the node decide upon receipt of a commandment what to do
+    self.prman_workers = [prman_Worker(self, c) for c in self.config['processes']]
     
     self.first_hello = True
   
@@ -107,11 +110,29 @@ class Node:
       if not worker.busy():
         lazy_workers.append(worker)
     
-    if len(lazy_workers)!=0 and (self.first_hello or self.config['single_use']==False):
+    #PRMAN WORKERS----------
+    lazy_workers_prman = []
+    for worker in self.prman_workers:
+      r = worker.state()
+      if r!=None:
+        requests.append(r)
+        if r['id']=='done':
+          print(datetime.datetime.utcnow().isoformat(' '), ':: Rendered frame %s of %s in %.1f seconds' % (str(worker.frame), worker.fn, r['time']))
+          self.must_send.append(r)
+      
+      if not worker.busy():
+        lazy_workers_prman.append(worker)
+    #PRMAN WORKERS----------
+
+    #we need to make sure that both worker types have at least one worker available
+    #AND that the total number both types of workers doesn't exceed the maximum we can have (paren for clarity mostly)
+    totalNumActiveWorkers = (len(self.workers) - len(lazy_workers)) + (len(self.prman_workers) - len(lazy_workers_prman))
+    if (len(lazy_workers)!=0 and (self.first_hello or self.config['single_use']==False)) \
+      and (len(lazy_workers_prman)!=0 and (self.first_hello or self.config['single_use']==False)) \
+      and totalNumActiveWorkers < len(self.config['processes']):
       self.first_hello = False
       print(datetime.datetime.utcnow().isoformat(' '), ':: Requesting %i job(s)' % len(lazy_workers))
       requests.append({'id' : 'task', 'paths' : [p for p in self.paths.keys()], 'provides' : self.config['provides'], 'count' : len(lazy_workers)})
-    
     # Send it to the server...
     try:
       req = urlopen('%s/farm'%self.config['server'], json.dumps(requests).encode('utf-8'))
@@ -123,7 +144,6 @@ class Node:
     
     # Parse the data...
     commandments = json.loads(req.read().decode('utf-8'))
-    
     # Go through and handle the commandments...
     for commandment in commandments:
       if commandment['id']=='info':
@@ -140,20 +160,29 @@ class Node:
         print('  File %s' % commandment['file'])
         print('  Frame %s' % commandment['frame'])
         
-        worker = lazy_workers.pop()
-        worker.run(commandment)
+        if commandment['prmanCommands']:
+          worker = lazy_workers_prman.pop()
+          worker.run(commandment)
+        else:
+          worker = lazy_workers.pop()
+          worker.run(commandment)
         
       elif commandment['id']=='kill':
         print(datetime.datetime.utcnow().isoformat(' '), ':: Kill request for task %s, frame %i' % (commandment['uuid'], commandment['frame']))
+        #kill workers
         for worker in self.workers:
           worker.kill(commandment)
-
+        #PRMAN WORKERS----------
+        for worker in self.prman_workers:
+          worker.kill(commandment)
+        #PRMAN WORKERS----------
       else:
         print(datetime.datetime.utcnow().isoformat(' '), ':: Unknown commandment:')
         print(commandment)
     
     # Get a list of processes we need to wait for to return...
-    return [worker.p() for worker in self.workers if worker.busy()]
+    #PRMAN WORKERS----------
+    return [worker.p() for worker in self.workers if worker.busy()] + [worker.p() for worker in self.prman_workers if worker.busy()]
 
 
   def run(self):
@@ -179,12 +208,12 @@ class Node:
           hb = self.hibernation
       
       hb += self.arrhythmia * random.random()
-      
+
       # Sleep, either with wake on one of the processes ending or just sleep...
       if len(wait_on)==0:
         if self.config['single_use']: # In single use mode this basically means we are done.
           return
-        
+    
         time.sleep(hb)
         
       else:
@@ -194,7 +223,7 @@ class Node:
         while time.time() < end: # Could someone please tell me a better way of doing this:-/
           done = False
           for proc in wait_on:
-            if proc.poll()!=None:
+            if proc.poll() != None:
               done = True
               break
           if done:
