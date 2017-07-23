@@ -51,7 +51,7 @@ class Node:
 
     # Setup the heartbeat value - None means we don't yet know it (ask the server...)...
     self.last_info = 0.0 # Offset from unix epoc, so will update immediatly.
-    self.heartbeat = 1.0
+    self.heartbeat = 4.0
     self.arrhythmia = 1.0
     self.error_scale = 2.0
     self.hibernation = 600.0
@@ -124,15 +124,14 @@ class Node:
         lazy_workers_prman.append(worker)
     #PRMAN WORKERS----------
 
-    #we need to make sure that both worker types have at least one worker available
-    #AND that the total number both types of workers doesn't exceed the maximum we can have (paren for clarity mostly)
+    # We need to make sure that both worker types have at least one worker available and that the total number both types of workers doesn't exceed the maximum we can have...
     totalNumActiveWorkers = (len(self.workers) - len(lazy_workers)) + (len(self.prman_workers) - len(lazy_workers_prman))
-    if (len(lazy_workers)!=0 and (self.first_hello or self.config['single_use']==False)) \
-      and (len(lazy_workers_prman)!=0 and (self.first_hello or self.config['single_use']==False)) \
-      and totalNumActiveWorkers < len(self.config['processes']):
+    if (self.first_hello or self.config['single_use']==False) and (totalNumActiveWorkers < len(self.config['processes'])):
       self.first_hello = False
-      print(datetime.datetime.utcnow().isoformat(' '), ':: Requesting %i job(s)' % len(lazy_workers))
-      requests.append({'id' : 'task', 'paths' : [p for p in self.paths.keys()], 'provides' : self.config['provides'], 'count' : len(lazy_workers)})
+      request = len(self.config['processes']) - totalNumActiveWorkers
+      print(datetime.datetime.utcnow().isoformat(' '), ':: Requesting %i job(s)' % request)
+      requests.append({'id' : 'task', 'paths' : [p for p in self.paths.keys()], 'provides' : self.config['provides'], 'count' : request})
+      
     # Send it to the server...
     try:
       req = urlopen('%s/farm'%self.config['server'], json.dumps(requests).encode('utf-8'))
