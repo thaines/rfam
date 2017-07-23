@@ -124,12 +124,15 @@ class Node:
         lazy_workers_prman.append(worker)
     #PRMAN WORKERS----------
 
+    #we need to make sure that both worker types have at least one worker available
+    #AND that the total number both types of workers doesn't exceed the maximum we can have (paren for clarity mostly)
+    totalNumActiveWorkers = (len(self.workers) - len(lazy_workers)) + (len(self.prman_workers) - len(lazy_workers_prman))
     if (len(lazy_workers)!=0 and (self.first_hello or self.config['single_use']==False)) \
-      and (len(lazy_workers_prman)!=0 and (self.first_hello or self.config['single_use']==False)):
+      and (len(lazy_workers_prman)!=0 and (self.first_hello or self.config['single_use']==False)) \
+      and totalNumActiveWorkers < len(self.config['processes']):
       self.first_hello = False
       print(datetime.datetime.utcnow().isoformat(' '), ':: Requesting %i job(s)' % len(lazy_workers))
       requests.append({'id' : 'task', 'paths' : [p for p in self.paths.keys()], 'provides' : self.config['provides'], 'count' : len(lazy_workers)})
-
     # Send it to the server...
     try:
       req = urlopen('%s/farm'%self.config['server'], json.dumps(requests).encode('utf-8'))
