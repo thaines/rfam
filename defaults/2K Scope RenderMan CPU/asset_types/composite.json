@@ -1,0 +1,14 @@
+{
+ "ident" : "comp",
+ "name" : "Composite",
+ "directory" : "composites",
+ "priority" : 20,
+ "state" : "ns",
+ "states" : ["ns", "ic", "us", "ac", "po"],
+ "time_budget" : {"us" : 60, "ac" : 30, "po" : 30},
+ "file" : "composite.blend",
+ "render" : true,
+ "final" : false,
+ "output" : "//render/%(name)s",
+ "sort" : 6
+}
