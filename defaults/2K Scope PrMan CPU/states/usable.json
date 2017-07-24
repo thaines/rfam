@@ -1,0 +1,9 @@
+{
+ "ident" : "us",
+ "name" : "Usable",
+ "render" : true,
+ "render.priority" : 1,
+ "boost" : false,
+ "time" : true,
+ "squeeze" : false
+}

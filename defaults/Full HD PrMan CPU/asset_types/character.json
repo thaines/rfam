@@ -1,0 +1,14 @@
+{
+ "ident" : "char",
+ "name" : "Character",
+ "directory" : "characters",
+ "priority" : 80,
+ "state" : "ns",
+ "states" : ["ns", "ic", "mod", "rig", "ref", "po"],
+ "time_budget" : {"us" : 480, "ac" : 240, "po" : 240},
+ "file" : "default.blend",
+ "render" : false,
+ "final" : false,
+ "output" : "//test_render/%(name)s",
+ "sort" : 1
+}

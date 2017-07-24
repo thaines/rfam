@@ -1,0 +1,14 @@
+{
+ "ident" : "shot",
+ "name" : "Shot",
+ "directory" : "shots",
+ "priority" : 30,
+ "state" : "ns",
+ "states" : ["ns", "ic", "us", "ac", "po"],
+ "time_budget" : {"us" : 30, "ac" : 60, "po" : 30},
+ "file" : "default.blend",
+ "render" : true,
+ "final" : false,
+ "output" : "//render/%(name)s",
+ "sort" : 5
+}
