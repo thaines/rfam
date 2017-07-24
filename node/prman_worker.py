@@ -278,6 +278,8 @@ class prman_Worker:
     else:
       my_env["PATH"] = my_env["PATH"] + ':' + self.node.config["prman_path"]
     
+    my_env['RMANTREE'] = self.node.config["prman_rmantree"]
+
     if self.printDebug:
       print('NOTE: Thread command: ', popenArgs)
       print('ENV: ', env)

@@ -17,7 +17,8 @@
  "single_use" : false,
  "jitter" : 10.0,
  
- "prman_path" : "C:\\Program Files\\Pixar\\RenderManProServer-21.4\\bin",
+ "prman_path" : "../../stephan/opt/pixar/RenderManProServer-21.4/bin",
+ "prman_rmantree" : "../../stephan/opt/pixar/RenderManProServer-21.4",
  "prman_override_thread_count" : false,
  "prman_write_log_files" : true
 }
