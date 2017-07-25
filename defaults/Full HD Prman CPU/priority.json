@@ -1,0 +1,8 @@
+{
+ "visible" : true,
+ "low" : 0,
+ "high" : 100,
+ "names" : ["Meh", "Low", "Normal", "High", "Urgent"],
+ "boosting" : true,
+ "boost" : 1
+}

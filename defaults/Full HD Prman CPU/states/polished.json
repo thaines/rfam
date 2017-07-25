@@ -1,0 +1,9 @@
+{
+ "ident" : "po",
+ "name" : "Polished",
+ "render" : true,
+ "render.priority" : 3,
+ "boost" : false,
+ "time" : true,
+ "squeeze" : true
+}

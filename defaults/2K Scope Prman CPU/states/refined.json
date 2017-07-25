@@ -1,0 +1,8 @@
+{
+ "ident" : "ref",
+ "name" : "Refined",
+ "render" : false,
+ "boost" : true,
+ "time" : true,
+ "squeeze" : false
+}
