@@ -1,0 +1,9 @@
+{
+ "ident" : "ac",
+ "name" : "Acceptable",
+ "render" : true,
+ "render.priority" : 2,
+ "boost" : false,
+ "time" : true,
+ "squeeze" : false
+}
