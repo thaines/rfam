@@ -122,8 +122,8 @@ class prman_Worker:
     self.frameCommandsTODO = len(self.frameCommands)
 
     #create a unique name for the log file
-    self.currentLogFileName = os.path.abspath(self.cwd + '/log_' + str(time.time()) + '.json')
-
+    self.currentLogFileName = os.path.abspath(self.cwd + '/log_' + str(time.time()).replace('.', '') + '.txt')
+    
     if self.printDebug:
       print('NOTE: Worker received new commands: ', self.frameCommands)
 
@@ -261,8 +261,11 @@ class prman_Worker:
         print('OUT: ', self.outLogs)
         print('ERR: ', self.errLogs)
       if self.node.config['prman_write_log_files']:
-        with open(self.currentLogFileName, 'w') as outfile:
-          json.dump({'stdout' : self.outLogs, 'stderr' : self.errLogs}, outfile)
+        try:
+          with open(self.currentLogFileName, 'w') as outfile:
+            json.dump({'stdout' : self.outLogs, 'stderr' : self.errLogs}, outfile)
+        except Exception as e:
+          print('ERROR: File ' + self.currentLogFileName + ' could not be written.')
       
       self.frameCommandsTODO = 0
       self.proc = None
@@ -277,7 +280,9 @@ class prman_Worker:
       my_env["PATH"] = my_env["PATH"] + ';' + self.node.config["prman_path"]
     else:
       my_env["PATH"] = my_env["PATH"] + ':' + self.node.config["prman_path"]
-    
+    #always set RMANTREE
+    my_env['RMANTREE'] = self.node.config['prman_rmantree']
+
     if self.printDebug:
       print('NOTE: Thread command: ', popenArgs)
       print('ENV: ', env)
@@ -287,7 +292,8 @@ class prman_Worker:
       universal_newlines = True,
       env = my_env,
       shell = True,
-      stdout = subprocess.PIPE, stderr=subprocess.PIPE)
+      stdout = subprocess.PIPE, stderr=subprocess.PIPE,
+      bufsize = -1)
     
     #use to prevent race condition occuring because of thread launch time
     self.procInitialised = True
