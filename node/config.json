@@ -9,6 +9,7 @@
  "provides" : [],
  
  "blender" : "~/blender/blender",
+ "blender_env" : {},
  "nice" : 10,
  "scripting" : true,
  

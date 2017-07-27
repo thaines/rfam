@@ -120,8 +120,16 @@ class Worker:
       script = '-y'
     else:
       script = '-Y'
-
-    self.proc = subprocess.Popen(['nice', '-n', str(self.node.config['nice']), self.node.blender, '-t', str(self.threads), script, '-b', self.fn, '-s', str(start), '-e', str(end), '-a'], stdout = subprocess.PIPE if self.video else subprocess.DEVNULL, stderr = subprocess.DEVNULL, universal_newlines=True)
+    
+    if 'blender_env' in self.node.config and len(self.node.config['blender_env'])>0:
+      env = os.environ.copy()
+      for key, value in self.config['blender_env'].items():
+        env[key] = value
+      
+    else:
+      env = None
+    
+    self.proc = subprocess.Popen(['nice', '-n', str(self.node.config['nice']), self.node.blender, '-t', str(self.threads), script, '-b', self.fn, '-s', str(start), '-e', str(end), '-a'], stdout = subprocess.PIPE if self.video else subprocess.DEVNULL, stderr = subprocess.DEVNULL, env=env, universal_newlines=True)
     self.start = time.time()
     
     if self.video:
