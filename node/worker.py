@@ -123,7 +123,7 @@ class Worker:
     
     if 'blender_env' in self.node.config and len(self.node.config['blender_env'])>0:
       env = os.environ.copy()
-      for key, value in self.config['blender_env'].items():
+      for key, value in self.node.config['blender_env'].items():
         env[key] = value
       
     else:
