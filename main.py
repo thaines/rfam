@@ -13,8 +13,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
+
 from bin.rfam import RFAM
 from bin.response import Response
+
+
+
+# Check if there is a secret file with a random string to be used for access...
+try:
+  with open('secret.txt', 'r') as fin:
+    secret1, secret2 = fin.read().split('\n')
+    secret1 = secret1.strip() # Access token
+    secret2 = secret2.strip() # For encoding jwt
+
+except FileNotFoundError:
+  secret1 = None
+  secret2 = None
+
+if secret1 is not None:
+  import jwt
+  print('secure mode enabled')
 
 
 
@@ -96,6 +115,42 @@ modules[''] = home.app
 def application(environ, start_response):
   response = Response(environ)
   cookie = response.getCookie()
+  
+  # Handle security...
+  if secret1 is not None:
+    print('security check')
+    query = response.getQuery()
+    # If secret key provided set a jwt authorising access...
+    if 'access' in query:
+      code = query['access'].strip()
+      if code==secret1:
+        # Prepare to redirect...
+        response.refresh()
+        
+        # Set access cookie...
+        payload = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, secret2, algorithm='HS256')
+        response.addCookie('access', payload.decode('ascii'), 24)
+        
+        # Lose the access token from the url with a redirect...
+        return response.response(start_response)
+      
+      else:
+        response.make403()
+        return response.response(start_response)
+    
+    elif 'access' in cookie:
+      # If secret enabled check for a jwt before providing access...
+      try:
+        payload = jwt.decode(cookie['access'], secret2, algorithms=['HS256'])
+        
+      except (jwt.ExpiredSignatureError, jwt.exceptions.InvalidSignatureError):
+        response.make403()
+        return response.response(start_response)
+    
+    else:
+      response.make403()
+      return response.response(start_response)
+
 
   # Check if the user is logged in, and record this fact in the response...
   response.project = None

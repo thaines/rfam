@@ -64,8 +64,11 @@ class Response:
     """Returns a dictionary of the query string parameters."""
     if self.query==None:
       self.query = dict()
-      for key, value in urllib.parse.parse_qsl(self.env['QUERY_STRING'], True, True):
-        self.query[key] = value
+      try:
+        for key, value in urllib.parse.parse_qsl(self.env['QUERY_STRING'], True, True):
+          self.query[key] = value
+      except ValueError:
+        pass
     return self.query
   
   
@@ -121,6 +124,17 @@ class Response:
     self.length = len(self.data[0])
     self.f = None
   
+  
+  def refresh(self):
+    to = self.env['PATH_INFO']
+    print('refresh', to)
+    self.code = '303 REFRESH'
+    self.head = {'Content-type' : 'text/plain',
+                 'Location' : to}
+    self.data = [b'303 - refresh page']
+    self.length = len(self.data[0])
+    self.f = None
+    
   
   def setPlain(self):
     """Sets the content type to indicate that the return is plain text."""
