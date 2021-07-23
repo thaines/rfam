@@ -6,7 +6,7 @@
  "state" : "ns",
  "states" : ["ns", "ic", "us", "ac", "po"],
  "time_budget" : {"us" : 30, "ac" : 30, "po" : 30},
- "file" : "default.blend",
+ "file" : "mats.blend",
  "render" : false,
  "final" : false,
  "output" : "//test_render/%(name)s",

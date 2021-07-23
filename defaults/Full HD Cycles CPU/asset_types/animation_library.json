@@ -6,7 +6,7 @@
  "state" : "ns",
  "states" : ["ns", "ic", "us", "ac", "po"],
  "time_budget" : {"us" : 120, "ac" : 180, "po" : 180},
- "file" : "default.blend",
+ "file" : "anis.blend",
  "render" : false,
  "final" : false,
  "output" : "//test_render/%(name)s",
