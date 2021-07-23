@@ -6,7 +6,7 @@
  "state" : "ns",
  "states" : ["ns", "ic", "us", "ac", "po"],
  "time_budget" : {"us" : 30, "ac" : 60, "po" : 30},
- "file" : "default.blend",
+ "file" : "shot.blend",
  "render" : true,
  "final" : false,
  "output" : "//render/%(name)s",

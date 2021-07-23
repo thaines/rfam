@@ -6,7 +6,7 @@
  "state" : "ns",
  "states" : ["ns", "ic", "us", "ac", "po"],
  "time_budget" : {"us" : 60, "ac" : 30, "po" : 30},
- "file" : "composite.blend",
+ "file" : "comp.blend",
  "render" : true,
  "final" : false,
  "output" : "//render/%(name)s",
