@@ -1,0 +1,14 @@
+{
+ "ident" : "prop",
+ "name" : "Prop",
+ "directory" : "props",
+ "priority" : 30,
+ "state" : "ns",
+ "states" : ["ns", "ic", "us", "ac", "po"],
+ "time_budget" : {"us" : 30, "po" : 30},
+ "file" : "prop.blend",
+ "render" : false,
+ "final" : false,
+ "output" : "//test_render/%(name)s",
+ "sort" : 2
+}
