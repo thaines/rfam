@@ -1,8 +1,0 @@
-{
- "ident" : "rig",
- "name" : "Rigged",
- "render" : false,
- "boost" : true,
- "time" : true,
- "squeeze" : false
-}

@@ -1,8 +1,0 @@
-{
- "ident" : "ic",
- "name" : "Incomplete",
- "render" : false,
- "boost" : true,
- "time" : true,
- "squeeze" : false
-}
