@@ -3,7 +3,7 @@
  "projects" : "projects",
  "users" : "users",
  "defaults" : "defaults",
- "default" : "2K Scope Cycles CPU",
+ "default" : "2K Scope Eevee",
  
  "log" : "log/log_%(pid)s.log",
  "single_proc" : true,
