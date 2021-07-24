@@ -1,0 +1,13 @@
+[Unit]
+Description=RFAM
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/var/www/rfam
+ExecStart=python3 run.py
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
+
