@@ -20,7 +20,11 @@ import time
 import datetime
 
 import json
-import collections
+
+try:
+  from collections.abc import Mapping
+except ImportErrror:
+  from collections import Mapping
 
 from .lock_file import lock_dir_prefix, LockFile
 
@@ -42,7 +46,7 @@ class FileType:
   
 
 
-class Node(collections.Mapping):
+class Node(Mapping):
   """Represents a node in the filesystem, be it file or directory. Provides a slightly weird if useful interface to it!"""
   UNINITIALISED = 0
   DELETED = 1
@@ -404,7 +408,7 @@ class Node(collections.Mapping):
 
 
 
-class FSDB(collections.Mapping):
+class FSDB(Mapping):
   """Caches the state of the directory hierarchy its passed on initialisation, under the assumption that other proceses may change the structure. It does cache however, and only checks periodically, so out of date answers are possible for directory contents. For file contents the query is guaranteed to be millisecond recent as it checks time stamps. Caches the contents of files for which a handler is registered. Acts as a mapping type that accesses everything in the hierarchy via tuples of strings (!), with an empty tuple obtaining the root Node. Note that internally it uses directories prefixed with '.lock_' for file locks, so don't try and use nodes with that prefix as they will be hidden."""
   def __init__(self, root, single_proc = False):
     """Root is the root directory of the hierarchy to cache. single_proc can be set to False to stop it using lock files - this makes reading a hell of a lot faster, but is unsafe if their are multiple processes!"""

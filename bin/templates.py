@@ -16,7 +16,11 @@
 import os
 import os.path
 
-from collections import Mapping
+try:
+  from collections.abc import Mapping
+except ImportErrror:
+  from collections import Mapping
+
 from collections import namedtuple
 
 
