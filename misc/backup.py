@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import os
+import datetime
 from subprocess import call
 
 
@@ -39,6 +40,15 @@ os.makedirs(backup_seq[0], exist_ok=True)
 
 
 # Use rsync to make the backup...
+start = datetime.datetime.now()
 source = 'server:/mnt/3Dami/'
 call(['rsync', '-av', '--delete', source, backup_seq[0]])
+end = datetime.datetime.now()
+
+
+
+# Write start/end time...
+with open(os.path.join(backup_seq[0], 'backup_time.txt'), 'w') as fout:
+  print(f'start = {start.isoformat()}', file=fout)
+  print(f'end = {end.isoformat()}', file=fout)
 
