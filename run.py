@@ -17,6 +17,8 @@
 import json
 import wsgiref.simple_server
 
+import urllib3.connection
+
 from main import application
 
 
@@ -30,7 +32,14 @@ f.close()
 
 # Run a slightly tweaked wsgi server...
 class BetterWSGIServer(wsgiref.simple_server.WSGIServer):
-    request_queue_size = 1024*32 # Increases the backlog, so it can handle more concurrent connections! Bit insane, but meh.
+  request_queue_size = 1024*32 # Increases the backlog, so it can handle more concurrent connections! Bit insane, but meh.
+  request_timeout = 8
+
+  def get_request(self):
+    request, client_addr = super().get_request()
+    request.settimeout(self.request_timeout)
+    return request, client_addr
+
 
 server = BetterWSGIServer(('', config['port']), wsgiref.simple_server.WSGIRequestHandler)
 server.set_app(application)
